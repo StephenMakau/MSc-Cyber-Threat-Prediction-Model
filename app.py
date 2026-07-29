@@ -53,3 +53,4 @@ color:#ff0033;
 
 </style>
 """, unsafe_allow_html=True)
+}
