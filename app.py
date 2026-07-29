@@ -20,262 +20,305 @@ st.set_page_config(
 )
 
 # =====================================
-# PROFESSIONAL LIGHT THEME WITH CALIBRI
+# GOOGLE COLORS FUTURISTIC THEME
 # =====================================
 st.markdown("""
 <style>
     /* 
-       COLOR PALETTE: Modern Enterprise Security (Light Mode)
-       - Background: Light Slate/Blue-Grey (#f1f5f9 to #ffffff)
-       - Primary: Deep Navy (#1e3a8a)
-       - Accent: Electric Blue (#2563eb)
-       - Text: Dark Slate (#334155)
-       - Font: Calibri for body (as requested)
+       GOOGLE COLOR PALETTE:
+       - Blue: #4285F4 (Primary)
+       - Red: #EA4335 (Critical/Danger)
+       - Yellow: #FBBC04 (Warnings/High)
+       - Green: #34A853 (Success/Stable)
+       - Background: Material Design Light
     */
 
-    /* Global Background */
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+    /* Global Background - Material Design Light with Google Blue tint */
     .stApp {
-        background: linear-gradient(135deg, #f1f5f9 0%, #ffffff 100%);
-        color: #334155;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
+        color: #202124;
     }
 
-    /* Typography: Headers - Clean Sans-Serif */
+    /* Typography: Roboto (Google's font) for headers, Calibri for body */
     h1, h2, h3, h4, h5, h6 {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-        color: #1e3a8a !important;
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        color: #4285F4 !important;
         font-weight: 700;
-        letter-spacing: -0.025em;
+        letter-spacing: -0.5px;
     }
 
     h1 {
-        border-bottom: 3px solid #2563eb;
+        background: linear-gradient(90deg, #4285F4, #34A853);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        border-bottom: 3px solid #4285F4;
         padding-bottom: 15px;
         margin-bottom: 25px;
-        font-size: 2.5rem !important;
-        color: #1e3a8a !important;
+        font-size: 2.8rem !important;
     }
 
     h2 {
-        color: #2563eb !important;
+        color: #1a73e8 !important;
         margin-top: 30px;
-        font-size: 1.8rem !important;
+        font-size: 2rem !important;
+        border-left: 4px solid #FBBC04;
+        padding-left: 15px;
     }
     
     h3 {
-        color: #3b82f6 !important;
+        color: #188038 !important;
         margin-top: 25px;
-        font-size: 1.4rem !important;
+        font-size: 1.5rem !important;
     }
 
     /* Body Text: Calibri as requested */
-    p, li, div, span, label, .stMarkdown, .stAlert, .stDataFrame, .stTable {
+    p, li, div, span, label, .stMarkdown, .stAlert {
         font-family: Calibri, 'Segoe UI', Candara, sans-serif !important;
-        color: #334155 !important;
+        color: #3c4043 !important;
         font-size: 1.15rem;
         line-height: 1.7;
     }
     
-    /* Specific paragraph styling */
     p {
         margin-bottom: 1rem !important;
     }
     
-    /* List items */
     li {
         margin-bottom: 0.5rem !important;
-        font-family: Calibri, 'Segoe UI', Candara, sans-serif !important;
+        font-family: Calibri, sans-serif !important;
     }
 
-    /* Navigation Tabs - Professional Style with Icons */
+    /* Navigation Tabs - Google Style */
     .stTabs [data-testid="stTab"] {
-        color: #64748b;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-        font-weight: 600;
-        font-size: 0.95rem;
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px 8px 0 0;
-        padding: 12px 24px;
-        margin: 0 4px;
-        transition: all 0.3s ease;
+        color: #5f6368;
+        font-family: 'Roboto', sans-serif !important;
+        font-weight: 500;
+        font-size: 1rem;
+        background: #ffffff;
+        border: 2px solid #dadce0;
+        border-radius: 24px;
+        padding: 12px 28px;
+        margin: 0 8px 15px 0;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .stTabs [data-testid="stTab"]:hover {
-        color: #2563eb;
-        background: #f1f5f9;
-        border-color: #2563eb;
+        color: #4285F4;
+        background: #e8f0fe;
+        border-color: #4285F4;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(66, 133, 244, 0.2);
     }
 
     .stTabs [data-testid="stTab"][aria-selected="true"] {
-        background: #2563eb;
+        background: #4285F4;
         color: #ffffff !important;
-        border: 1px solid #2563eb;
-        border-bottom: none;
-        font-weight: 700;
-        box-shadow: 0 -4px 12px rgba(37, 99, 235, 0.2);
+        border: 2px solid #4285F4;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
     }
 
-    /* Metric Cards - Clean White Style */
+    /* Metric Cards - Google Material Cards */
     [data-testid="stMetric"] {
         background: #ffffff;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 25px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        border: none;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
         text-align: center;
         transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
     }
 
     [data-testid="stMetric"]:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        border-color: #2563eb;
+        transform: translateY(-4px);
+        box-shadow: 0 4px 20px rgba(66, 133, 244, 0.25);
+    }
+    
+    [data-testid="stMetric"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #4285F4, #34A853);
     }
 
     [data-testid="stMetricValue"] {
-        color: #2563eb !important;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-        font-weight: 800;
-        font-size: 2.8rem !important;
+        color: #4285F4 !important;
+        font-family: 'Roboto', sans-serif !important;
+        font-weight: 700;
+        font-size: 3rem !important;
     }
 
     [data-testid="stMetricLabel"] {
-        color: #64748b !important;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-        font-weight: 600;
-        font-size: 0.85rem !important;
+        color: #5f6368 !important;
+        font-family: 'Roboto', sans-serif !important;
+        font-weight: 500;
+        font-size: 0.9rem !important;
         text-transform: uppercase;
         letter-spacing: 1.5px;
+        margin-top: 8px;
     }
 
-    /* Tables - Clean Professional Style */
+    /* Tables - Google Style */
     div[data-testid="stDataFrame"], div[data-testid="stTable"] {
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
+        border: 1px solid #dadce0;
+        border-radius: 12px;
         background: #ffffff;
-        color: #334155;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        color: #202124;
+        box-shadow: 0 1px 2px rgba(60,64,67,0.3);
     }
 
-    /* Alert Boxes - Professional Security Alerts */
+    /* Alert Boxes - Google Colors */
     .threat-high {
-        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
-        border-left: 6px solid #f97316;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+        border-left: 6px solid #FBBC04;
+        border-radius: 12px;
         padding: 30px;
-        color: #9a3412 !important;
-        box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.1);
+        color: #b06000 !important;
+        box-shadow: 0 4px 12px rgba(251, 188, 4, 0.2);
     }
 
     .threat-high h1 {
-        color: #c2410c !important;
+        color: #e65100 !important;
         border-bottom: none;
-        font-size: 2rem !important;
+        font-size: 2.2rem !important;
         margin-bottom: 10px !important;
+        background: none;
+        -webkit-text-fill-color: #e65100;
     }
     
     .threat-high h3 {
-        color: #ea580c !important;
+        color: #f57c00 !important;
         margin-top: 0 !important;
+        border-left: none;
+        padding-left: 0;
     }
     
     .threat-high p {
-        color: #7c2d12 !important;
-        font-family: Calibri, 'Segoe UI', sans-serif !important;
+        color: #6c4f00 !important;
+        font-family: Calibri, sans-serif !important;
     }
 
     .threat-critical {
-        background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-        border-left: 6px solid #ef4444;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #fce8e6 0%, #ffcfc9 100%);
+        border-left: 6px solid #EA4335;
+        border-radius: 12px;
         padding: 30px;
-        color: #b91c1c !important;
-        box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1);
+        color: #c5221f !important;
+        box-shadow: 0 4px 12px rgba(234, 67, 53, 0.2);
     }
 
     .threat-critical h1 {
-        color: #dc2626 !important;
+        color: #c5221f !important;
         border-bottom: none;
-        font-size: 2rem !important;
+        font-size: 2.2rem !important;
         margin-bottom: 10px !important;
+        background: none;
+        -webkit-text-fill-color: #c5221f;
     }
     
     .threat-critical h3 {
-        color: #dc2626 !important;
+        color: #d93025 !important;
         margin-top: 0 !important;
+        border-left: none;
+        padding-left: 0;
     }
     
     .threat-critical p {
-        color: #991b1b !important;
-        font-family: Calibri, 'Segoe UI', sans-serif !important;
+        color: #5c0c0c !important;
+        font-family: Calibri, sans-serif !important;
     }
 
     .threat-moderate {
-        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
-        border-left: 6px solid #10b981;
-        border-radius: 8px;
+        background: linear-gradient(135deg, #e6f4ea 0%, #c8e6c9 100%);
+        border-left: 6px solid #34A853;
+        border-radius: 12px;
         padding: 30px;
-        color: #047857 !important;
-        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
+        color: #137333 !important;
+        box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
     }
 
     .threat-moderate h1 {
-        color: #059669 !important;
+        color: #137333 !important;
         border-bottom: none;
-        font-size: 2rem !important;
+        font-size: 2.2rem !important;
         margin-bottom: 10px !important;
+        background: none;
+        -webkit-text-fill-color: #137333;
     }
     
     .threat-moderate h3 {
-        color: #059669 !important;
+        color: #188038 !important;
         margin-top: 0 !important;
+        border-left: none;
+        padding-left: 0;
     }
     
     .threat-moderate p {
-        color: #065f46 !important;
-        font-family: Calibri, 'Segoe UI', sans-serif !important;
+        color: #0d5c1e !important;
+        font-family: Calibri, sans-serif !important;
     }
 
-    /* Info/Warning Boxes - Light Theme */
+    /* Info/Warning Boxes */
     .stAlert {
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        color: #334155 !important;
-        border-radius: 8px;
-        font-family: Calibri, 'Segoe UI', sans-serif !important;
+        background: #e8f0fe;
+        border: 1px solid #4285F4;
+        color: #1967d2 !important;
+        border-radius: 12px;
+        font-family: Calibri, sans-serif !important;
+        border-left: 4px solid #4285F4;
     }
     
     .stAlert p {
-        color: #334155 !important;
-        font-family: Calibri, 'Segoe UI', sans-serif !important;
+        color: #1967d2 !important;
+        font-family: Calibri, sans-serif !important;
     }
     
     /* Caption styling */
     .stCaption {
-        color: #64748b !important;
-        font-family: Calibri, 'Segoe UI', sans-serif !important;
-        font-size: 0.9rem;
+        color: #5f6368 !important;
+        font-family: Calibri, sans-serif !important;
+        font-size: 0.95rem;
     }
     
     /* Divider */
     hr {
-        border-color: #e2e8f0 !important;
+        border-color: #dadce0 !important;
         margin: 30px 0 !important;
     }
 
-    /* Professional Container for sections */
+    /* Professional Container - Google Card Style */
     .professional-container {
         background: #ffffff;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
+        border: none;
+        border-radius: 16px;
         padding: 30px;
         margin: 20px 0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        position: relative;
+        overflow: hidden;
     }
     
-    /* Strong/Bold text in body */
+    .professional-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC04, #34A853);
+    }
+    
+    /* Strong text */
     strong, b {
-        color: #1e3a8a !important;
+        color: #4285F4 !important;
         font-weight: 700;
     }
 </style>
@@ -320,9 +363,9 @@ with home:
     with c1:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #64748b; margin:0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; font-family: Calibri, sans-serif;">Core Algorithm</h4>
-            <h2 style="margin: 15px 0; color: #2563eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; font-size: 2.2rem;">XGBoost</h2>
-            <p style="color: #64748b; font-size: 0.9rem; font-family: Calibri, sans-serif;">Advanced Gradient Boosting</p>
+            <h4 style="color: #5f6368; margin:15px 0 0 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-family: Roboto, sans-serif;">Core Algorithm</h4>
+            <h2 style="margin: 15px 0; color: #4285F4; font-family: Roboto, sans-serif !important; font-size: 2.4rem; font-weight: 700;">XGBoost</h2>
+            <p style="color: #80868b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">Advanced Gradient Boosting</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -336,9 +379,9 @@ with home:
     with c3:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #64748b; margin:0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; font-family: Calibri, sans-serif;">Forecast Horizon</h4>
-            <h2 style="margin: 15px 0; color: #2563eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important; font-size: 2.2rem;">2027</h2>
-            <p style="color: #64748b; font-size: 0.9rem; font-family: Calibri, sans-serif;">Predictive Analysis</p>
+            <h4 style="color: #5f6368; margin:15px 0 0 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-family: Roboto, sans-serif;">Forecast Horizon</h4>
+            <h2 style="margin: 15px 0; color: #34A853; font-family: Roboto, sans-serif !important; font-size: 2.4rem; font-weight: 700;">2027</h2>
+            <p style="color: #80868b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">Predictive Analysis</p>
         </div>
         """, unsafe_allow_html=True)
 
