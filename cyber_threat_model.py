@@ -110,3 +110,23 @@ data = {
 
 
 df = pd.DataFrame(data)
+encoder = LabelEncoder()
+
+
+df["Economic_Environment"] = encoder.fit_transform(
+    df["Economic_Environment"]
+)
+
+
+df["Threat_Level"] = encoder.fit_transform(
+    df["Threat_Level"]
+)
+
+
+X = df.drop(
+    "Threat_Level",
+    axis=1
+)
+
+
+y = df["Threat_Level"]
