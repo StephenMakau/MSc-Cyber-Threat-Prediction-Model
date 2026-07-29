@@ -1,339 +1,304 @@
 import streamlit as st
-
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-
 from cyber_threat_model import (
-
-predict_2027,
-
-get_model_accuracy,
-
-get_results,
-
-get_dataset,
-
-get_parameters
-
+    predict_2027,
+    get_model_accuracy,
+    get_results,
+    get_dataset,
+    get_parameters
 )
-
-
 
 st.set_page_config(
-
-page_title="Cyber Threat Prediction System",
-
-layout="wide"
-
+    page_title="Cyber Threat Prediction System",
+    page_icon="🛡️",
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-
-
-# =====================================
-# STYLE
-# =====================================
-
+# =====================================================
+# RESPONSIVE CSS
+# =====================================================
 
 st.markdown("""
-
 <style>
 
-
+/* MAIN */
 .stApp{
-
-background:#eaf6ff;
-
+    background:#eef7ff;
 }
 
+/* Hide Streamlit menu/footer */
+#MainMenu {visibility:hidden;}
+footer {visibility:hidden;}
+header {visibility:hidden;}
 
-h1,h2,h3{
-
-color:#003366;
-
+/* Center content */
+.block-container{
+    max-width:1400px;
+    padding-top:1rem;
+    padding-bottom:2rem;
 }
 
+/* Responsive titles */
 
+h1{
+    color:#003366;
+    font-weight:800;
+    font-size:clamp(1.8rem,4vw,3rem);
+}
+
+h2{
+    color:#003366;
+    font-size:clamp(1.3rem,3vw,2rem);
+}
+
+h3{
+    color:#003366;
+}
+
+/* Metric Cards */
 
 [data-testid="stMetric"]{
 
-background:white;
+    background:white;
 
-padding:18px;
+    border-radius:18px;
 
-border-radius:15px;
+    border:2px solid #b8d9f5;
 
-border:2px solid #b7d7f0;
+    padding:18px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
 
 }
-
-
 
 [data-testid="stMetricValue"]{
 
-color:#d35400 !important;
+    color:#d35400 !important;
 
-font-weight:900;
+    font-weight:900;
 
 }
 
+/* Forecast Card */
 
+.forecast-card{
+
+    background:#F57C00;
+
+    color:white;
+
+    padding:35px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+
+}
+
+.forecast-title{
+
+    font-size:clamp(2rem,5vw,3rem);
+
+    font-weight:900;
+
+}
+
+.forecast-sub{
+
+    font-size:clamp(1rem,2vw,1.5rem);
+
+}
+
+/* Tables */
+
+thead tr th{
+
+    background:#003366 !important;
+
+    color:white !important;
+
+}
+
+/* Mobile */
+
+@media (max-width:768px){
+
+.block-container{
+
+padding-left:1rem;
+
+padding-right:1rem;
+
+}
+
+[data-testid="stMetric"]{
+
+padding:12px;
+
+}
+
+}
 
 </style>
+""", unsafe_allow_html=True)
 
+# =====================================================
+# TABS
+# =====================================================
 
-""",
-
-unsafe_allow_html=True
-
+home, dataset, models, parameters = st.tabs(
+    [
+        "🏠 HOME",
+        "📊 DATASET",
+        "🤖 MODELS",
+        "⚙ PARAMETERS"
+    ]
 )
 
-
-
-# =====================================
-# NAVIGATION
-# =====================================
-
-
-home,dataset,models,parameters = st.tabs(
-
-[
-
-"🏠 HOME",
-
-"📊 DATASET",
-
-"🤖 MODELS",
-
-"⚙ PARAMETERS"
-
-]
-
-)
-
-
-
-# =====================================
+# =====================================================
 # HOME
-# =====================================
-
+# =====================================================
 
 with home:
 
-
-    st.title(
-    "MSc Cybersecurity Project"
-    )
-
-
-    st.subheader(
-    "Mount Kenya University"
-    )
-
+    st.title("MSc Cybersecurity Project")
+    st.subheader("Mount Kenya University")
 
     st.write(
-    "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
+        "Machine Learning-Based Cyber Threat Trend Prediction "
+        "for Kenyan Government Digital Services"
     )
 
-
-    st.write(
-    "Author: Stephen Musau Makau"
-    )
-
+    st.write("**Author:** Stephen Musau Makau")
 
     st.caption(
-
-    datetime.now(
-    ZoneInfo("Africa/Nairobi")
-    ).strftime(
-    "%d %B %Y | %H:%M:%S EAT"
+        datetime.now(
+            ZoneInfo("Africa/Nairobi")
+        ).strftime("%d %B %Y | %H:%M:%S EAT")
     )
-
-    )
-
 
     st.divider()
 
+    prediction = predict_2027()
+    accuracy = get_model_accuracy() * 100
 
+    # Responsive metrics
+    col1, col2, col3 = st.columns([1,1,1])
 
-    prediction=predict_2027()
+    with col1:
+        st.metric(
+            "Algorithm",
+            "XGBoost"
+        )
 
-    accuracy=get_model_accuracy()*100
+    with col2:
+        st.metric(
+            "Accuracy",
+            f"{accuracy:.2f}%"
+        )
 
-
-
-    c1,c2,c3=st.columns(3)
-
-
-
-    c1.metric(
-    "Algorithm",
-    "XGBoost"
-    )
-
-
-    c2.metric(
-    "Accuracy",
-    f"{accuracy:.2f}%"
-    )
-
-
-    c3.metric(
-    "Forecast Year",
-    "2027"
-    )
-
-
+    with col3:
+        st.metric(
+            "Forecast Year",
+            "2027"
+        )
 
     st.divider()
 
+    st.header("2027 Cyber Threat Forecast")
 
+    if prediction == "High":
 
-    st.header(
-    "2027 Cyber Threat Forecast"
-    )
+        st.markdown(f"""
 
+        <div class="forecast-card">
 
-
-    if prediction=="High":
-
-
-        st.markdown(
-
-        """
-
-        <div style="
-        background:#F57C00;
-        padding:30px;
-        border-radius:15px;
-        text-align:center;
-        ">
-
-
-        <h1 style="color:white;">
+        <div class="forecast-title">
         HIGH RISK
-        </h1>
+        </div>
 
-
-        <h3 style="color:white;">
-        Predicted Level: High
-        </h3>
-
+        <div class="forecast-sub">
+        Predicted Threat Level: <b>{prediction}</b>
+        </div>
 
         </div>
 
-        """,
+        """, unsafe_allow_html=True)
 
-        unsafe_allow_html=True
+    elif prediction == "Critical":
 
-        )
-
-
-
-    elif prediction=="Critical":
-
-
-        st.error(
-        "CRITICAL RISK"
-        )
-
+        st.error("🚨 CRITICAL RISK")
 
     else:
 
+        st.success("✅ MODERATE RISK")
 
-        st.success(
-        "MODERATE RISK"
-        )
-
-
-
-
-
-# =====================================
+# =====================================================
 # DATASET
-# =====================================
-
+# =====================================================
 
 with dataset:
 
-
-    st.title(
-    "Cyber Threat Dataset"
-    )
-
+    st.title("Cyber Threat Dataset")
 
     st.dataframe(
-
-    get_dataset(),
-
-    use_container_width=True
-
+        get_dataset(),
+        use_container_width=True,
+        hide_index=True
     )
 
-
-
-# =====================================
+# =====================================================
 # MODELS
-# =====================================
-
+# =====================================================
 
 with models:
 
+    st.title("Machine Learning Algorithms")
 
-    st.title(
-    "Machine Learning Algorithms"
-    )
+    results = get_results()
 
+    table = []
 
-    results=get_results()
-
-
-    table=[]
-
-
-    for name,value in results.items():
+    for algorithm, score in results.items():
 
         table.append({
 
-        "Algorithm":name,
+            "Algorithm": algorithm,
 
-        "Accuracy":f"{value*100:.2f}%"
+            "Accuracy": f"{score*100:.2f}%"
 
         })
 
+    st.dataframe(
+        table,
+        use_container_width=True,
+        hide_index=True
+    )
 
-    st.table(table)
-
-
-
-# =====================================
+# =====================================================
 # PARAMETERS
-# =====================================
-
+# =====================================================
 
 with parameters:
 
-
-    st.title(
-    "Prediction Parameters Evaluated"
-    )
-
+    st.title("Prediction Parameters Evaluated")
 
     st.write(
-
-    """
-    The following cybersecurity, technological,
-    and economic variables contribute to the
-    final 2027 threat projection.
-    """
-
+        """
+        The following cybersecurity,
+        technological, and economic
+        variables contribute to the
+        final prediction for 2027.
+        """
     )
 
-
     st.dataframe(
-
-    get_parameters(),
-
-    use_container_width=True
-
+        get_parameters(),
+        use_container_width=True,
+        hide_index=True
     )
