@@ -3,136 +3,124 @@ import streamlit as st
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-
 from cyber_threat_model import (
-
-    predict_2027,
-
-    get_model_accuracy
-
+predict_2027,
+get_model_accuracy
 )
 
 
 
-# =====================================================
+# ===============================
 # PAGE SETTINGS
-# =====================================================
+# ===============================
 
 
 st.set_page_config(
 
-    page_title="Cyber Threat Prediction Report",
+page_title="Cyber Threat Prediction Report",
 
-    page_icon="🛡️",
-
-    layout="wide"
+layout="wide"
 
 )
 
 
 
-# =====================================================
-# FUTURISTIC THEME
-# =====================================================
+# ===============================
+# STYLE
+# ===============================
 
 
-st.markdown(
-
-"""
+st.markdown("""
 
 <style>
 
-
-body {
-
-background:#020617;
-
-}
-
-
 .stApp {
 
-background:
-
-linear-gradient(
-
-135deg,
-
-#020617,
-
-#0b1f3a,
-
-#001122
-
-);
-
-color:white;
+background:#d9efff;
 
 }
-
 
 
 h1 {
 
-color:white;
-
-font-size:45px;
-
-letter-spacing:3px;
+color:#06283D;
 
 }
-
 
 
 h2 {
 
-color:#ffffff;
+color:#0B3954;
 
 }
 
 
+h3 {
 
-.card {
-
-background:
-
-rgba(255,255,255,0.08);
-
-border-radius:20px;
-
-padding:25px;
-
-border:
-
-1px solid rgba(255,255,255,0.2);
-
-box-shadow:
-
-0 0 25px rgba(0,0,0,0.5);
+color:#06283D;
 
 }
 
+
+[data-testid="stMetric"] {
+
+background:white;
+
+border-radius:15px;
+
+padding:15px;
+
+border:2px solid #0B3954;
+
+}
+
+
+[data-testid="stMetricLabel"] {
+
+color:#06283D !important;
+
+font-size:18px;
+
+font-weight:bold;
+
+}
+
+
+[data-testid="stMetricValue"] {
+
+color:#E65100 !important;
+
+font-size:30px;
+
+font-weight:bold;
+
+}
+
+
+.block-container {
+
+padding-top:1rem;
+
+padding-bottom:1rem;
+
+}
 
 
 </style>
 
-
 """,
-
-unsafe_allow_html=True
-
-)
+unsafe_allow_html=True)
 
 
 
-# =====================================================
+# ===============================
 # HEADER
-# =====================================================
+# ===============================
 
 
-time = datetime.now(
+time=datetime.now(
 
-    ZoneInfo("Africa/Nairobi")
+ZoneInfo("Africa/Nairobi")
 
 ).strftime(
 
@@ -143,90 +131,69 @@ time = datetime.now(
 
 
 st.title(
-
 "MSc Cybersecurity Project"
-
 )
 
 
 st.subheader(
-
 "Mount Kenya University"
-
 )
 
 
 st.write(
-
 "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
-
 )
 
 
 st.write(
-
 "Author: Stephen Musau Makau"
-
 )
 
 
 st.caption(
-
 f"Prediction Report Generated: {time}"
-
 )
 
 
 
-st.divider()
+# ===============================
+# RESULTS
+# ===============================
+
+
+prediction=predict_2027()
+
+accuracy=get_model_accuracy()*100
 
 
 
-# =====================================================
-# MODEL SUMMARY
-# =====================================================
-
-
-prediction = predict_2027()
-
-accuracy = get_model_accuracy()*100
+col1,col2,col3=st.columns(3)
 
 
 
-a,b,c = st.columns(3)
-
-
-
-with a:
+with col1:
 
     st.metric(
-
-        "Algorithm",
-
-        "XGBoost"
-
+    "Algorithm",
+    "XGBoost"
     )
 
 
-with b:
+
+with col2:
 
     st.metric(
-
-        "Accuracy",
-
-        f"{accuracy:.2f}%"
-
+    "Accuracy",
+    f"{accuracy:.2f}%"
     )
 
 
-with c:
+
+with col3:
 
     st.metric(
-
-        "Forecast Horizon",
-
-        "2027"
-
+    "Forecast Horizon",
+    "2027"
     )
 
 
@@ -235,35 +202,30 @@ st.divider()
 
 
 
-# =====================================================
-# THREAT FORECAST
-# =====================================================
+# ===============================
+# THREAT CARD
+# ===============================
 
 
+if prediction=="Critical":
 
-if prediction == "Critical":
+    colour="#C62828"
 
-    colour="#ff1744"
-
-    status="CRITICAL RISK"
-
+    label="CRITICAL RISK"
 
 
 elif prediction=="High":
 
-    colour="#ffb300"
+    colour="#EF6C00"
 
-    status="HIGH RISK"
-
+    label="HIGH RISK"
 
 
 else:
 
-    colour="#00e676"
+    colour="#2E7D32"
 
-    status="MODERATE RISK"
-
-
+    label="MODERATE RISK"
 
 
 
@@ -271,49 +233,37 @@ st.markdown(
 
 f"""
 
+## 2027 CYBER THREAT FORECAST
+
+
 <div style="
 
-background:rgba(0,0,0,0.35);
+background:white;
 
-padding:45px;
+padding:25px;
 
-border-radius:25px;
+border-radius:15px;
 
-border:2px solid {colour};
-
-text-align:center;
-
-box-shadow:0 0 30px {colour};
+border-left:10px solid {colour};
 
 ">
 
 
-<h2>
-
-2027 CYBER THREAT FORECAST
-
-</h2>
-
-
 <h1 style="color:{colour};">
 
-{status}
+{label}
 
 </h1>
 
 
-<p style="color:white;font-size:20px;">
+<h3 style="color:#06283D;">
 
-Predicted Threat Classification:
-<br>
+Predicted Threat Level: {prediction}
 
-<b>{prediction}</b>
-
-</p>
+</h3>
 
 
 </div>
-
 
 """,
 
@@ -323,40 +273,28 @@ unsafe_allow_html=True
 
 
 
-st.divider()
+# ===============================
+# FOOTER INFORMATION
+# ===============================
 
 
-
-# =====================================================
-# REPORT INFORMATION
-# =====================================================
-
-
-left,right = st.columns(2)
+left,right=st.columns(2)
 
 
 
 with left:
 
-    st.markdown(
+    st.info(
 
     """
-
-    <div class="card">
-
-    <h3>Research Dataset</h3>
-
-    Cyber Threat Indicators<br>
-
-    Economic Variables<br>
-
+    Dataset:
+    
+    Cyber Threat Indicators
+    
+    Economic Variables
+    
     Vulnerability Intelligence
-
-    </div>
-
-    """,
-
-    unsafe_allow_html=True
+    """
 
     )
 
@@ -364,26 +302,16 @@ with left:
 
 with right:
 
-    st.markdown(
+    st.success(
 
     """
+    Model:
 
-    <div class="card">
-
-    <h3>Model Type</h3>
-
-    Supervised Machine Learning Classification
-
-    <br><br>
+    Supervised Machine Learning
 
     Algorithm:
 
     XGBoost Classifier
-
-    </div>
-
-    """,
-
-    unsafe_allow_html=True
+    """
 
     )
