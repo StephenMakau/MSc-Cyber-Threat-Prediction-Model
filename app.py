@@ -1,4 +1,5 @@
 import streamlit as st
+
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -10,123 +11,175 @@ from cyber_threat_model import (
     get_parameters
 )
 
+
 st.set_page_config(
     page_title="Cyber Threat Prediction System",
-    page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# =====================================================
-# RESPONSIVE CSS
-# =====================================================
+
+# =====================================
+# STYLE
+# =====================================
 
 st.markdown("""
+
 <style>
 
-/* MAIN */
 .stApp{
-    background:#eef7ff;
+
+background:#002366;
+
+color:white;
+
 }
 
-/* Hide Streamlit menu/footer */
-#MainMenu {visibility:hidden;}
-footer {visibility:hidden;}
-header {visibility:hidden;}
 
-/* Center content */
 .block-container{
-    max-width:1400px;
-    padding-top:1rem;
-    padding-bottom:2rem;
+
+max-width:1400px;
+
+padding-top:1rem;
+
 }
 
-/* Responsive titles */
 
-h1{
-    color:#003366;
-    font-weight:800;
-    font-size:clamp(1.8rem,4vw,3rem);
+/* Titles */
+
+h1,h2,h3{
+
+color:white;
+
+font-weight:800;
+
 }
 
-h2{
-    color:#003366;
-    font-size:clamp(1.3rem,3vw,2rem);
+
+/* Text */
+
+p, label{
+
+color:white;
+
 }
 
-h3{
-    color:#003366;
-}
 
-/* Metric Cards */
+/* Cards */
 
 [data-testid="stMetric"]{
 
-    background:white;
+background:white;
 
-    border-radius:18px;
+padding:18px;
 
-    border:2px solid #b8d9f5;
+border-radius:15px;
 
-    padding:18px;
+border:2px solid #9bbce0;
 
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
 
 }
+
+
+[data-testid="stMetricLabel"]{
+
+color:#003366 !important;
+
+font-weight:bold;
+
+}
+
 
 [data-testid="stMetricValue"]{
 
-    color:#d35400 !important;
+color:#d35400 !important;
 
-    font-weight:900;
-
-}
-
-/* Forecast Card */
-
-.forecast-card{
-
-    background:#F57C00;
-
-    color:white;
-
-    padding:35px;
-
-    border-radius:20px;
-
-    text-align:center;
-
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
+font-weight:900;
 
 }
 
-.forecast-title{
 
-    font-size:clamp(2rem,5vw,3rem);
+/* Tabs */
 
-    font-weight:900;
+button[data-baseweb="tab"]{
+
+color:white;
+
+font-weight:bold;
+
+}
+
+
+button[data-baseweb="tab"][aria-selected="true"]{
+
+background:#4169e1;
+
+border-radius:8px;
 
 }
 
-.forecast-sub{
-
-    font-size:clamp(1rem,2vw,1.5rem);
-
-}
 
 /* Tables */
 
 thead tr th{
 
-    background:#003366 !important;
+background:#001845 !important;
 
-    color:white !important;
+color:white !important;
 
 }
 
-/* Mobile */
 
-@media (max-width:768px){
+tbody tr td{
+
+background:white !important;
+
+color:#000 !important;
+
+}
+
+
+
+/* Forecast */
+
+.forecast-card{
+
+background:#4169e1;
+
+padding:35px;
+
+border-radius:20px;
+
+text-align:center;
+
+border:2px solid white;
+
+}
+
+
+.forecast-title{
+
+font-size:clamp(2rem,5vw,3rem);
+
+font-weight:900;
+
+color:white;
+
+}
+
+
+.forecast-sub{
+
+font-size:clamp(1rem,2vw,1.4rem);
+
+color:white;
+
+}
+
+
+
+@media(max-width:768px){
 
 .block-container{
 
@@ -136,169 +189,276 @@ padding-right:1rem;
 
 }
 
+
 [data-testid="stMetric"]{
 
 padding:12px;
 
 }
 
+
 }
 
 </style>
-""", unsafe_allow_html=True)
 
-# =====================================================
-# TABS
-# =====================================================
-
-home, dataset, models, parameters = st.tabs(
-    [
-        "🏠 HOME",
-        "📊 DATASET",
-        "🤖 MODELS",
-        "⚙ PARAMETERS"
-    ]
+""",
+unsafe_allow_html=True
 )
 
-# =====================================================
+
+
+# =====================================
+# NAVIGATION
+# =====================================
+
+
+home, dataset, models, parameters = st.tabs(
+[
+"HOME",
+"DATASET",
+"MODELS",
+"PARAMETERS"
+]
+)
+
+
+
+# =====================================
 # HOME
-# =====================================================
+# =====================================
 
 with home:
 
-    st.title("MSc Cybersecurity Project")
-    st.subheader("Mount Kenya University")
+
+    st.title(
+        "MSc Cybersecurity Project"
+    )
+
+
+    st.subheader(
+        "Mount Kenya University"
+    )
+
 
     st.write(
-        "Machine Learning-Based Cyber Threat Trend Prediction "
-        "for Kenyan Government Digital Services"
+        "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
     )
 
-    st.write("**Author:** Stephen Musau Makau")
+
+    st.write(
+        "Author: Stephen Musau Makau"
+    )
+
 
     st.caption(
+
         datetime.now(
             ZoneInfo("Africa/Nairobi")
-        ).strftime("%d %B %Y | %H:%M:%S EAT")
+        ).strftime(
+            "%d %B %Y | %H:%M:%S EAT"
+        )
+
     )
+
 
     st.divider()
 
+
+
     prediction = predict_2027()
-    accuracy = get_model_accuracy() * 100
 
-    # Responsive metrics
-    col1, col2, col3 = st.columns([1,1,1])
+    accuracy = get_model_accuracy()*100
 
-    with col1:
+
+
+    c1,c2,c3 = st.columns(3)
+
+
+
+    with c1:
+
         st.metric(
             "Algorithm",
             "XGBoost"
         )
 
-    with col2:
+
+    with c2:
+
         st.metric(
             "Accuracy",
             f"{accuracy:.2f}%"
         )
 
-    with col3:
+
+    with c3:
+
         st.metric(
             "Forecast Year",
             "2027"
         )
 
+
+
     st.divider()
 
-    st.header("2027 Cyber Threat Forecast")
+
+
+    st.header(
+        "2027 Cyber Threat Forecast"
+    )
+
+
 
     if prediction == "High":
 
-        st.markdown(f"""
+
+        st.markdown(
+
+        """
 
         <div class="forecast-card">
 
         <div class="forecast-title">
+
         HIGH RISK
+
         </div>
+
 
         <div class="forecast-sub">
-        Predicted Threat Level: <b>{prediction}</b>
-        </div>
+
+        Predicted Threat Level: High
 
         </div>
 
-        """, unsafe_allow_html=True)
+
+        </div>
+
+        """,
+
+        unsafe_allow_html=True
+
+        )
+
 
     elif prediction == "Critical":
 
-        st.error("🚨 CRITICAL RISK")
+        st.error(
+            "CRITICAL RISK"
+        )
+
 
     else:
 
-        st.success("✅ MODERATE RISK")
+        st.success(
+            "MODERATE RISK"
+        )
 
-# =====================================================
+
+
+
+
+# =====================================
 # DATASET
-# =====================================================
+# =====================================
 
 with dataset:
 
-    st.title("Cyber Threat Dataset")
 
-    st.dataframe(
-        get_dataset(),
-        use_container_width=True,
-        hide_index=True
+    st.title(
+        "Cyber Threat Dataset"
     )
 
-# =====================================================
+
+    st.dataframe(
+
+        get_dataset(),
+
+        use_container_width=True,
+
+        hide_index=True
+
+    )
+
+
+
+
+
+# =====================================
 # MODELS
-# =====================================================
+# =====================================
 
 with models:
 
-    st.title("Machine Learning Algorithms")
+
+    st.title(
+        "Machine Learning Algorithms"
+    )
+
 
     results = get_results()
 
-    table = []
 
-    for algorithm, score in results.items():
+    table=[]
+
+
+    for name,value in results.items():
+
 
         table.append({
 
-            "Algorithm": algorithm,
+        "Algorithm":name,
 
-            "Accuracy": f"{score*100:.2f}%"
+        "Accuracy":f"{value*100:.2f}%"
 
         })
 
+
+
     st.dataframe(
+
         table,
+
         use_container_width=True,
+
         hide_index=True
+
     )
 
-# =====================================================
+
+
+
+
+# =====================================
 # PARAMETERS
-# =====================================================
+# =====================================
 
 with parameters:
 
-    st.title("Prediction Parameters Evaluated")
 
-    st.write(
-        """
-        The following cybersecurity,
-        technological, and economic
-        variables contribute to the
-        final prediction for 2027.
-        """
+    st.title(
+        "Prediction Parameters Evaluated"
     )
 
+
+    st.write(
+
+    """
+    The following cybersecurity,
+    technological and economic variables
+    contribute to the 2027 threat prediction.
+    """
+
+    )
+
+
     st.dataframe(
+
         get_parameters(),
+
         use_container_width=True,
+
         hide_index=True
+
     )
