@@ -169,3 +169,46 @@ xgb_model.fit(
     X_train,
     y_train
 )
+def predict_2027():
+
+
+    future_2027 = pd.DataFrame({
+
+        "Year":[2027],
+
+        "Month":[8],
+
+        "DDoS_Attacks":[4200],
+
+        "Malware_Attacks":[18500],
+
+        "Phishing_Attacks":[4100],
+
+        "Web_Attacks":[5200],
+
+        "Critical_CVEs":[95],
+
+        "Patch_Delay_Days":[9],
+
+        "Traffic_Volume":[1100000],
+
+        "Inflation_Rate":[6.8],
+
+        "GDP_Growth":[5.2],
+
+        "Economic_Environment":[2]
+
+    })
+
+
+    prediction = xgb_model.predict(
+        future_2027
+    )
+
+
+    result = encoder.inverse_transform(
+        prediction
+    )
+
+
+    return result[0]
