@@ -20,164 +20,191 @@ st.set_page_config(
 )
 
 # =====================================
-# PROFESSIONAL CYBERSECURITY STYLE
+# PROFESSIONAL CYBERSECURITY STYLE (RESEARCHED PALETTE)
 # =====================================
 st.markdown("""
 <style>
-    /* Global Background - Deep Slate/Charcoal (Real SOC Aesthetic) */
+    /* 
+       COLOR PALETTE RESEARCH:
+       - Background: Deep Slate (#0f172a) to Dark Charcoal (#1e293b) - Professional, deep, non-fatiguing.
+       - Primary Accent: Electric Indigo (#6366f1) - Modern tech feel, distinct from generic blue.
+       - Secondary Accent: Teal/Cyan (#06b6d4) - High contrast for data, represents "live" status.
+       - Danger: Crimson (#ef4444) and Orange (#f97316) - Standard, clear alert colors.
+       - Text: White (#ffffff) and Light Gray (#cbd5e1) - Maximum readability.
+    */
+
+    /* Global Background */
     .stApp {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        color: #e0e0e0;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #cbd5e1;
     }
 
-    /* Typography Configuration */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Times New Roman', Times, serif !important;
+    /* Typography: Hybrid Approach */
+    /* Headers: Clean Sans-Serif for modern UI feel */
+    h1, h2, h3, h4, h5, h6, [data-testid="stMetricLabel"], [data-testid="stTab"] {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         color: #ffffff !important;
-        font-weight: bold;
-        letter-spacing: 0.5px;
+        font-weight: 700;
+        letter-spacing: -0.025em;
     }
 
-    h1 {
-        border-bottom: 2px solid #0f3460;
-        padding-bottom: 15px;
-        margin-bottom: 20px;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    }
-
-    p, li, div, span, label, a, button {
+    /* Body: Times New Roman for Academic/Research integrity as requested */
+    p, li, div, span, label, a, button, .stMarkdown, .stAlert {
         font-family: 'Times New Roman', Times, serif !important;
-        color: #c5c5c5 !important;
+        color: #cbd5e1 !important;
         font-size: 1.1rem;
         line-height: 1.6;
     }
 
-    /* Navigation Tabs - Technical/Professional Look */
+    h1 {
+        border-bottom: 2px solid #6366f1;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-size: 2.5rem !important;
+        text-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+    }
+
+    h2, h3 {
+        color: #06b6d4 !important; /* Teal for subheaders to differentiate */
+        margin-top: 20px;
+    }
+
+    /* Navigation Tabs - Modern Glass Style */
     .stTabs [data-testid="stTab"] {
-        color: #a8b2d1;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+        color: #94a3b8;
         font-weight: 600;
         font-size: 0.9rem;
         background: transparent;
         border: 1px solid transparent;
-        border-radius: 4px 4px 0 0;
+        border-radius: 8px;
         padding: 10px 20px;
         transition: all 0.3s ease;
+        margin: 0 5px;
     }
 
     .stTabs [data-testid="stTab"]:hover {
         color: #ffffff;
         background: rgba(255, 255, 255, 0.05);
-        border: 1px solid #0f3460;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .stTabs [data-testid="stTab"][aria-selected="true"] {
-        background: #0f3460;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
         color: #ffffff !important;
-        border: 1px solid #16213e;
-        border-bottom: 1px solid #16213e;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-        font-weight: bold;
+        border: none;
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        font-weight: 700;
     }
 
-    /* Metric Cards - Dark Technical Style */
+    /* Metric Cards - Glassmorphism with Teal Accent */
     [data-testid="stMetric"] {
-        background: #0f3460;
-        border: 1px solid #1a1a2e;
-        border-radius: 4px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         text-align: center;
+        transition: transform 0.2s;
+    }
+
+    [data-testid="stMetric"]:hover {
+        transform: translateY(-2px);
+        border: 1px solid rgba(6, 182, 212, 0.5);
     }
 
     [data-testid="stMetricValue"] {
-        color: #00f3ff !important; /* Cyan for data values */
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
-        font-weight: 700;
-        font-size: 2.0rem !important;
-        text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        color: #06b6d4 !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+        font-weight: 800;
+        font-size: 2.5rem !important;
+        text-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
     }
 
     [data-testid="stMetricLabel"] {
-        color: #a8b2d1 !important;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+        color: #94a3b8 !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 600;
         font-size: 0.8rem !important;
         text-transform: uppercase;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
     }
 
-    /* Tables - Dark Grid Style */
+    /* Tables - Clean Dark Grid */
     div[data-testid="stDataFrame"], div[data-testid="stTable"] {
-        border: 1px solid #0f3460;
-        border-radius: 4px;
-        background: #16213e;
-        color: #e0e0e0;
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 8px;
+        background: rgba(30, 41, 59, 0.5);
+        color: #e2e8f0;
     }
 
-    /* Alert Boxes - Professional Security Alerts */
+    /* Alert Boxes - Professional, Non-Cartoonish */
     .threat-high {
-        background: rgba(211, 84, 0, 0.15);
-        border-left: 5px solid #d35400;
-        padding: 25px;
-        border-radius: 4px;
-        color: #ffccbc !important;
-        box-shadow: 0 4px 15px rgba(211, 84, 0, 0.2);
+        background: rgba(249, 115, 22, 0.1);
+        border-left: 5px solid #f97316;
+        padding: 30px;
+        border-radius: 8px;
+        color: #fb923c !important;
+        box-shadow: 0 4px 20px rgba(249, 115, 22, 0.2);
     }
 
     .threat-high h1, .threat-high h3, .threat-high p {
-        color: #ffccbc !important;
+        color: #fb923c !important;
     }
 
     .threat-critical {
-        background: rgba(192, 57, 43, 0.15);
-        border-left: 5px solid #c0392b;
-        padding: 25px;
-        border-radius: 4px;
-        color: #ffcdd2 !important;
-        box-shadow: 0 4px 15px rgba(192, 57, 43, 0.2);
+        background: rgba(239, 68, 68, 0.1);
+        border-left: 5px solid #ef4444;
+        padding: 30px;
+        border-radius: 8px;
+        color: #f87171 !important;
+        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
     }
 
     .threat-critical h1, .threat-critical h3, .threat-critical p {
-        color: #ffcdd2 !important;
+        color: #f87171 !important;
     }
 
     .threat-moderate {
-        background: rgba(39, 174, 96, 0.15);
-        border-left: 5px solid #27ae60;
-        padding: 25px;
-        border-radius: 4px;
-        color: #b2dfdb !important;
-        box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);
+        background: rgba(52, 211, 153, 0.1);
+        border-left: 5px solid #34d399;
+        padding: 30px;
+        border-radius: 8px;
+        color: #6ee7b7 !important;
+        box-shadow: 0 4px 20px rgba(52, 211, 153, 0.2);
     }
 
     .threat-moderate h1, .threat-moderate h3, .threat-moderate p {
-        color: #b2dfdb !important;
+        color: #6ee7b7 !important;
     }
 
-    /* Info/Warning Boxes - Dark Theme Adapted */
+    /* Info/Warning Boxes - Adapted to Dark Theme */
     .stAlert {
-        background: #0f3460;
-        border: 1px solid #1a1a2e;
-        color: #e0e0e0 !important;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        color: #e2e8f0 !important;
+        border-radius: 8px;
     }
     .stAlert p {
-        color: #e0e0e0 !important;
+        color: #e2e8f0 !important;
     }
     
     /* Divider */
     hr {
-        border-color: #0f3460 !important;
+        border-color: rgba(148, 163, 184, 0.1) !important;
     }
 
-    /* Professional Container for sections */
+    /* Professional Container for sections - Glassmorphism */
     .professional-container {
-        background: #0f3460;
-        border: 1px solid #1a1a2e;
-        border-radius: 4px;
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(148, 163, 184, 0.1);
+        border-radius: 12px;
         padding: 30px;
         margin: 20px 0;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -221,9 +248,9 @@ with home:
     with c1:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #a8b2d1; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Core Algorithm</h4>
-            <h2 style="margin: 15px 0; color: #00f3ff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;">XGBoost</h2>
-            <p style="color: #777777; font-size: 0.8rem;">Advanced Gradient Boosting</p>
+            <h4 style="color: #94a3b8; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">Core Algorithm</h4>
+            <h2 style="margin: 15px 0; color: #6366f1; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;">XGBoost</h2>
+            <p style="color: #64748b; font-size: 0.8rem;">Advanced Gradient Boosting</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -237,9 +264,9 @@ with home:
     with c3:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #a8b2d1; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Forecast Horizon</h4>
-            <h2 style="margin: 15px 0; color: #00f3ff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;">2027</h2>
-            <p style="color: #777777; font-size: 0.8rem;">Predictive Analysis</p>
+            <h4 style="color: #94a3b8; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">Forecast Horizon</h4>
+            <h2 style="margin: 15px 0; color: #6366f1; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;">2027</h2>
+            <p style="color: #64748b; font-size: 0.8rem;">Predictive Analysis</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -252,7 +279,7 @@ with home:
         st.markdown("""
         <div class="threat-high">
             <h1 style="margin:0;">HIGH RISK DETECTED</h1>
-            <h3 style="color: #d35400;">Predicted Threat Level: HIGH</h3>
+            <h3 style="color: #f97316;">Predicted Threat Level: HIGH</h3>
             <p>The predictive model indicates a significant escalation in cyber threats targeting government digital infrastructure. Immediate proactive measures and resource allocation are recommended.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -260,7 +287,7 @@ with home:
         st.markdown("""
         <div class="threat-critical">
             <h1 style="margin:0;">CRITICAL ALERT</h1>
-            <h3 style="color: #c0392b;">Predicted Threat Level: CRITICAL</h3>
+            <h3 style="color: #ef4444;">Predicted Threat Level: CRITICAL</h3>
             <p>Critical infrastructure vulnerability detected. The model forecasts an unprecedented surge in attack vectors. Emergency protocols should be reviewed immediately.</p>
         </div>
         """, unsafe_allow_html=True)
@@ -268,7 +295,7 @@ with home:
         st.markdown("""
         <div class="threat-moderate">
             <h1 style="margin:0;">STABLE STATUS</h1>
-            <h3 style="color: #27ae60;">Predicted Threat Level: MODERATE</h3>
+            <h3 style="color: #34d399;">Predicted Threat Level: MODERATE</h3>
             <p>Threat levels are within manageable parameters. Continue standard monitoring and maintenance protocols.</p>
         </div>
         """, unsafe_allow_html=True)
