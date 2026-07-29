@@ -40,3 +40,16 @@ st.metric(
 prediction
 
 )
+st.markdown("""
+<style>
+
+body {
+background-color:#000000;
+}
+
+h1 {
+color:#ff0033;
+}
+
+</style>
+""", unsafe_allow_html=True)
