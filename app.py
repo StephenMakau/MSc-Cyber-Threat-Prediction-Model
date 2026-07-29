@@ -1,118 +1,3 @@
-import streamlit as st
-
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
-
-from cyber_threat_model import (
-
-predict_2027,
-
-get_model_accuracy,
-
-get_results,
-
-get_dataset,
-
-get_parameters
-
-)
-
-
-
-st.set_page_config(
-
-page_title="Cyber Threat Prediction System",
-
-layout="wide"
-
-)
-
-
-
-# =====================================
-# STYLE
-# =====================================
-
-
-st.markdown("""
-
-<style>
-
-
-.stApp{
-
-background:#eaf6ff;
-
-}
-
-
-h1,h2,h3{
-
-color:#003366;
-
-}
-
-
-
-[data-testid="stMetric"]{
-
-background:white;
-
-padding:18px;
-
-border-radius:15px;
-
-border:2px solid #b7d7f0;
-
-}
-
-
-
-[data-testid="stMetricValue"]{
-
-color:#d35400 !important;
-
-font-weight:900;
-
-}
-
-
-
-</style>
-
-
-""",
-
-unsafe_allow_html=True
-
-)
-
-
-
-# =====================================
-# NAVIGATION
-# =====================================
-
-
-home,dataset,models,parameters = st.tabs(
-
-[
-
-"🏠 HOME",
-
-"📊 DATASET",
-
-"🤖 MODELS",
-
-"⚙ PARAMETERS"
-
-]
-
-)
-
-
-
 # =====================================
 # HOME
 # =====================================
@@ -152,6 +37,59 @@ with home:
     )
 
 
+    # =====================================
+    # PROJECT DESCRIPTION
+    # =====================================
+
+
+    st.markdown(
+
+    """
+
+    <div style="
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    border-left:8px solid #003366;
+    margin-top:15px;
+    ">
+
+
+    <h3 style="color:#003366;">
+    Project Overview
+    </h3>
+
+
+    <p style="color:#333333; font-size:16px;">
+
+    This project develops a machine learning-based cyber threat
+    prediction model designed to forecast future cybersecurity risk
+    trends affecting Kenyan government digital services.
+
+
+    The system evaluates historical cyber threat indicators,
+    vulnerability intelligence, technology-related factors, and
+    economic variables to identify patterns that contribute to
+    increased cyber risk levels.
+
+
+    Using supervised machine learning classification algorithms,
+    including XGBoost, Random Forest, and Logistic Regression,
+    the model analyses previous threat behaviour and generates a
+    projected cyber threat classification for the year 2027.
+
+    </p>
+
+
+    </div>
+
+    """,
+
+    unsafe_allow_html=True
+
+    )
+
+
     st.divider()
 
 
@@ -166,22 +104,30 @@ with home:
 
 
 
-    c1.metric(
-    "Algorithm",
-    "XGBoost"
-    )
+    with c1:
+
+        st.metric(
+        "Algorithm",
+        "XGBoost"
+        )
 
 
-    c2.metric(
-    "Accuracy",
-    f"{accuracy:.2f}%"
-    )
+
+    with c2:
+
+        st.metric(
+        "Accuracy",
+        f"{accuracy:.2f}%"
+        )
 
 
-    c3.metric(
-    "Forecast Year",
-    "2027"
-    )
+
+    with c3:
+
+        st.metric(
+        "Forecast Year",
+        "2027"
+        )
 
 
 
@@ -244,96 +190,3 @@ with home:
         st.success(
         "MODERATE RISK"
         )
-
-
-
-
-
-# =====================================
-# DATASET
-# =====================================
-
-
-with dataset:
-
-
-    st.title(
-    "Cyber Threat Dataset"
-    )
-
-
-    st.dataframe(
-
-    get_dataset(),
-
-    use_container_width=True
-
-    )
-
-
-
-# =====================================
-# MODELS
-# =====================================
-
-
-with models:
-
-
-    st.title(
-    "Machine Learning Algorithms"
-    )
-
-
-    results=get_results()
-
-
-    table=[]
-
-
-    for name,value in results.items():
-
-        table.append({
-
-        "Algorithm":name,
-
-        "Accuracy":f"{value*100:.2f}%"
-
-        })
-
-
-    st.table(table)
-
-
-
-# =====================================
-# PARAMETERS
-# =====================================
-
-
-with parameters:
-
-
-    st.title(
-    "Prediction Parameters Evaluated"
-    )
-
-
-    st.write(
-
-    """
-    The following cybersecurity, technological,
-    and economic variables contribute to the
-    final 2027 threat projection.
-    """
-
-    )
-
-
-    st.dataframe(
-
-    get_parameters(),
-
-    use_container_width=True
-
-    )
