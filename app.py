@@ -19,133 +19,132 @@ st.set_page_config(
 )
 
 
-# =====================================
-# STYLE
-# =====================================
+# =====================================================
+# SESSION MODE
+# =====================================================
 
-st.markdown("""
+if "theme" not in st.session_state:
+    st.session_state.theme = "Light"
+
+
+# =====================================================
+# STYLE
+# =====================================================
+
+if st.session_state.theme == "Light":
+
+    background = "#D9F3F0"
+    text_color = "#003366"
+    card_background = "#FFFFFF"
+    border_color = "#9AD9D5"
+
+else:
+
+    background = "#0B1628"
+    text_color = "#FFFFFF"
+    card_background = "#172A46"
+    border_color = "#355C8A"
+
+
+
+st.markdown(f"""
 
 <style>
 
-.stApp{
+.stApp {{
 
-background:#002366;
+background:{background};
 
-color:white;
-
-}
+}}
 
 
-.block-container{
+.block-container {{
 
 max-width:1400px;
 
 padding-top:1rem;
 
-}
+}}
 
 
-/* Titles */
 
-h1,h2,h3{
+h1,h2,h3 {{
 
-color:white;
+color:{text_color};
 
 font-weight:800;
 
-}
+}}
 
 
-/* Text */
 
-p, label{
+p,label {{
 
-color:white;
+color:{text_color};
 
-}
+}}
 
 
-/* Cards */
 
-[data-testid="stMetric"]{
+[data-testid="stMetric"] {{
 
-background:white;
+background:{card_background};
 
 padding:18px;
 
 border-radius:15px;
 
-border:2px solid #9bbce0;
+border:2px solid {border_color};
 
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 
-}
+}}
 
 
-[data-testid="stMetricLabel"]{
 
-color:#003366 !important;
+[data-testid="stMetricLabel"] {{
+
+color:{text_color} !important;
 
 font-weight:bold;
 
-}
+}}
 
 
-[data-testid="stMetricValue"]{
 
-color:#d35400 !important;
+[data-testid="stMetricValue"] {{
+
+color:#D35400 !important;
 
 font-weight:900;
 
-}
+}}
 
 
-/* Tabs */
 
-button[data-baseweb="tab"]{
+button[data-baseweb="tab"] {{
 
-color:white;
+color:{text_color};
 
 font-weight:bold;
 
-}
+}}
 
 
-button[data-baseweb="tab"][aria-selected="true"]{
 
-background:#4169e1;
+button[data-baseweb="tab"][aria-selected="true"] {{
+
+background:#7ACFC7;
 
 border-radius:8px;
 
-}
-
-
-/* Tables */
-
-thead tr th{
-
-background:#001845 !important;
-
-color:white !important;
-
-}
-
-
-tbody tr td{
-
-background:white !important;
-
-color:#000 !important;
-
-}
+}}
 
 
 
-/* Forecast */
+.forecast-card {{
 
-.forecast-card{
-
-background:#4169e1;
+background:#008B8B;
 
 padding:35px;
 
@@ -155,10 +154,11 @@ text-align:center;
 
 border:2px solid white;
 
-}
+}}
 
 
-.forecast-title{
+
+.forecast-title {{
 
 font-size:clamp(2rem,5vw,3rem);
 
@@ -166,38 +166,52 @@ font-weight:900;
 
 color:white;
 
-}
+}}
 
 
-.forecast-sub{
+
+.forecast-sub {{
 
 font-size:clamp(1rem,2vw,1.4rem);
 
 color:white;
 
-}
+}}
 
 
 
-@media(max-width:768px){
+thead tr th {{
 
-.block-container{
+background:#003366 !important;
+
+color:white !important;
+
+}}
+
+
+
+tbody tr td {{
+
+background:{card_background} !important;
+
+color:{text_color} !important;
+
+}}
+
+
+
+@media(max-width:768px){{
+
+.block-container{{
 
 padding-left:1rem;
 
 padding-right:1rem;
 
-}
+}}
 
+}}
 
-[data-testid="stMetric"]{
-
-padding:12px;
-
-}
-
-
-}
 
 </style>
 
@@ -207,25 +221,25 @@ unsafe_allow_html=True
 
 
 
-# =====================================
-# NAVIGATION
-# =====================================
+# =====================================================
+# TABS
+# =====================================================
 
-
-home, dataset, models, parameters = st.tabs(
+home, dataset, models, parameters, mode = st.tabs(
 [
 "HOME",
 "DATASET",
 "MODELS",
-"PARAMETERS"
+"PARAMETERS",
+"MODE"
 ]
 )
 
 
 
-# =====================================
+# =====================================================
 # HOME
-# =====================================
+# =====================================================
 
 with home:
 
@@ -264,7 +278,6 @@ with home:
     st.divider()
 
 
-
     prediction = predict_2027()
 
     accuracy = get_model_accuracy()*100
@@ -272,7 +285,6 @@ with home:
 
 
     c1,c2,c3 = st.columns(3)
-
 
 
     with c1:
@@ -299,9 +311,7 @@ with home:
         )
 
 
-
     st.divider()
-
 
 
     st.header(
@@ -309,9 +319,7 @@ with home:
     )
 
 
-
     if prediction == "High":
-
 
         st.markdown(
 
@@ -332,7 +340,6 @@ with home:
 
         </div>
 
-
         </div>
 
         """,
@@ -348,7 +355,6 @@ with home:
             "CRITICAL RISK"
         )
 
-
     else:
 
         st.success(
@@ -359,9 +365,9 @@ with home:
 
 
 
-# =====================================
+# =====================================================
 # DATASET
-# =====================================
+# =====================================================
 
 with dataset:
 
@@ -385,9 +391,9 @@ with dataset:
 
 
 
-# =====================================
+# =====================================================
 # MODELS
-# =====================================
+# =====================================================
 
 with models:
 
@@ -397,14 +403,13 @@ with models:
     )
 
 
-    results = get_results()
+    results=get_results()
 
 
     table=[]
 
 
     for name,value in results.items():
-
 
         table.append({
 
@@ -413,7 +418,6 @@ with models:
         "Accuracy":f"{value*100:.2f}%"
 
         })
-
 
 
     st.dataframe(
@@ -430,9 +434,9 @@ with models:
 
 
 
-# =====================================
+# =====================================================
 # PARAMETERS
-# =====================================
+# =====================================================
 
 with parameters:
 
@@ -462,3 +466,39 @@ with parameters:
         hide_index=True
 
     )
+
+
+
+
+
+# =====================================================
+# MODE SWITCH
+# =====================================================
+
+with mode:
+
+
+    st.title(
+        "Display Mode"
+    )
+
+
+    selected = st.radio(
+
+        "Select interface theme",
+
+        [
+            "Light",
+            "Dark"
+        ],
+
+        index=0 if st.session_state.theme=="Light" else 1
+
+    )
+
+
+    if selected != st.session_state.theme:
+
+        st.session_state.theme = selected
+
+        st.rerun()
