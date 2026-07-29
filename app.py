@@ -6,384 +6,290 @@ from zoneinfo import ZoneInfo
 
 from cyber_threat_model import (
 
-    predict_2027,
+predict_2027,
 
-    get_model_accuracy
+get_model_accuracy,
+
+get_results,
+
+get_dataset
 
 )
 
-
-
-# ==========================================
-# PAGE CONFIGURATION
-# ==========================================
 
 
 st.set_page_config(
 
-    page_title="Cyber Threat Prediction Report",
+page_title="Cyber Threat Prediction System",
 
-    page_icon="🛡️",
-
-    layout="wide"
+layout="wide"
 
 )
 
 
 
-# ==========================================
-# COMPUTER PRIDE STYLE THEME
-# ==========================================
+# ===============================
+# THEME
+# ===============================
 
 
-st.markdown(
-
-"""
+st.markdown("""
 
 <style>
 
+.stApp{
 
-.stApp {
-
-background:#eef7ff;
-
-}
-
-
-
-.block-container {
-
-padding-top:1rem;
+background:#e8f4ff;
 
 }
 
 
-
-h1 {
-
-color:#003366;
-
-font-weight:800;
-
-}
-
-
-
-h2 {
+h1,h2,h3{
 
 color:#003366;
 
 }
 
 
-
-h3 {
-
-color:#003366;
-
-}
-
-
-
-[data-testid="stMetric"] {
-
-background:white;
-
-border-radius:12px;
-
-padding:20px;
-
-border:1px solid #b7d7f0;
-
-box-shadow:0 4px 12px rgba(0,0,0,0.12);
-
-}
-
-
-
-[data-testid="stMetricLabel"] {
-
-color:#003366 !important;
+button{
 
 font-weight:bold;
 
 }
 
 
+[data-testid="stMetric"]{
 
-[data-testid="stMetricValue"] {
+background:white;
 
-color:#d35400 !important;
+padding:15px;
 
-font-size:32px;
+border-radius:15px;
 
-font-weight:800;
+border:1px solid #b0cce5;
 
 }
 
 
-
 </style>
 
-""",
-
-unsafe_allow_html=True
-
-)
+""",unsafe_allow_html=True)
 
 
 
-# ==========================================
-# HEADER
-# ==========================================
+# ===============================
+# TOP NAVIGATION
+# ===============================
 
 
-current_time=datetime.now(
+home, dataset, models = st.tabs(
 
-ZoneInfo("Africa/Nairobi")
+[
 
-).strftime(
+"🏠 HOME",
 
-"%d %B %Y | %H:%M:%S EAT"
+"📊 DATASET",
 
-)
+"🤖 MODELS"
 
-
-
-st.title(
-
-"MSc Cybersecurity Project"
-
-)
-
-
-st.subheader(
-
-"Mount Kenya University"
-
-)
-
-
-st.write(
-
-"Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
-
-)
-
-
-st.write(
-
-"Author: Stephen Musau Makau"
-
-)
-
-
-st.caption(
-
-f"Prediction Report Generated: {current_time}"
+]
 
 )
 
 
 
-st.divider()
+# ===============================
+# HOME PAGE
+# ===============================
+
+
+with home:
+
+
+    st.title(
+    "MSc Cybersecurity Project"
+    )
+
+
+    st.subheader(
+    "Mount Kenya University"
+    )
+
+
+    st.write(
+    "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
+    )
+
+
+    st.write(
+    "Author: Stephen Musau Makau"
+    )
+
+
+    st.caption(
+
+    "Report Generated: " +
+
+    datetime.now(
+    ZoneInfo("Africa/Nairobi")
+    ).strftime("%d %B %Y | %H:%M:%S EAT")
+
+    )
+
+
+    st.divider()
 
 
 
-# ==========================================
-# DASHBOARD CARDS
-# ==========================================
+    prediction=predict_2027()
 
-
-prediction=predict_2027()
-
-accuracy=get_model_accuracy()*100
+    accuracy=get_model_accuracy()*100
 
 
 
-col1,col2,col3=st.columns(3)
+    c1,c2,c3=st.columns(3)
 
 
 
-with col1:
+    with c1:
 
-    st.metric(
-
-        "Machine Learning Model",
-
+        st.metric(
+        "Algorithm",
         "XGBoost"
-
-    )
-
+        )
 
 
-with col2:
+    with c2:
 
-    st.metric(
-
-        "Prediction Accuracy",
-
+        st.metric(
+        "Accuracy",
         f"{accuracy:.2f}%"
-
-    )
-
+        )
 
 
-with col3:
+    with c3:
 
-    st.metric(
-
-        "Forecast Year",
-
+        st.metric(
+        "Forecast",
         "2027"
+        )
+
+
+    st.divider()
+
+
+
+    st.header(
+    "Cyber Threat Forecast"
+    )
+
+
+
+    if prediction=="Critical":
+
+        st.error(
+        f"CRITICAL RISK\n\nPredicted Level: {prediction}"
+        )
+
+
+    elif prediction=="High":
+
+        st.warning(
+        f"HIGH RISK\n\nPredicted Level: {prediction}"
+        )
+
+
+    else:
+
+        st.success(
+        f"MODERATE RISK\n\nPredicted Level: {prediction}"
+        )
+
+
+
+
+# ===============================
+# DATASET PAGE
+# ===============================
+
+
+with dataset:
+
+
+    st.title(
+    "Cyber Threat Dataset"
+    )
+
+
+    st.write(
+    "Historical cybersecurity indicators used for model training."
+    )
+
+
+    st.dataframe(
+
+    get_dataset(),
+
+    use_container_width=True
 
     )
 
 
 
-st.divider()
+# ===============================
+# MODELS PAGE
+# ===============================
 
 
-
-# ==========================================
-# MAIN REPORT SECTION
-# ==========================================
+with models:
 
 
-st.header(
-
-"2027 Cyber Threat Forecast"
-
-)
-
-
-
-if prediction=="Critical":
-
-
-    st.error(
-
-    f"""
-
-    ## CRITICAL RISK
-
-
-    Predicted Threat Level:
-
-    **{prediction}**
-
-    """
-
+    st.title(
+    "Machine Learning Models"
     )
 
 
-elif prediction=="High":
+    results=get_results()
 
 
-    st.warning(
-
-    f"""
-
-    ## HIGH RISK
+    model_table=[]
 
 
-    Predicted Threat Level:
+    for model,score in results.items():
 
-    **{prediction}**
+        model_table.append(
 
-    """
+        {
 
-    )
+        "Algorithm":model,
 
+        "Accuracy":f"{score*100:.2f}%"
 
-else:
+        }
 
-
-    st.success(
-
-    f"""
-
-    ## MODERATE RISK
+        )
 
 
-    Predicted Threat Level:
+    st.table(model_table)
 
-    **{prediction}**
-
-    """
-
-    )
-
-
-
-st.divider()
-
-
-
-# ==========================================
-# REPORT INFORMATION
-# ==========================================
-
-
-a,b=st.columns(2)
-
-
-
-with a:
 
 
     st.info(
 
     """
+    Algorithms evaluated:
 
-    ### Research Dataset
+    • Logistic Regression
 
+    • Random Forest
 
-    • Cyber Threat Indicators
-
-
-    • Economic Variables
-
-
-    • Vulnerability Intelligence
+    • XGBoost
 
 
-    """
-
-    )
-
-
-
-with b:
-
-
-    st.success(
-
-    """
-
-    ### Model Information
-
-
-    Supervised Machine Learning Classification
-
-
-    Algorithm:
+    Final selected model:
 
     XGBoost Classifier
 
-
     """
 
     )
-
-
-
-st.divider()
-
-
-
-st.caption(
-
-"Cyber Threat Prediction Reporting System | MSc Cybersecurity Project | Mount Kenya University"
-
-)
