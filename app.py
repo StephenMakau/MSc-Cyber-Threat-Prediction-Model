@@ -14,116 +14,110 @@ from cyber_threat_model import (
 # PAGE CONFIG
 # =====================================
 st.set_page_config(
-    page_title="MKU Cyber Threat Intelligence | MSc Project",
-    page_icon="🛡️",
+    page_title="MKU Cyber Threat Intelligence",
+    page_icon="🛡️",  # This sets the browser tab icon to a shield
     layout="wide"
 )
 
 # =====================================
-# PROFESSIONAL CYBERSECURITY STYLE (RESEARCHED PALETTE)
+# PROFESSIONAL LIGHT THEME WITH SVG ICONS
 # =====================================
 st.markdown("""
 <style>
     /* 
-       COLOR PALETTE RESEARCH:
-       - Background: Deep Slate (#0f172a) to Dark Charcoal (#1e293b) - Professional, deep, non-fatiguing.
-       - Primary Accent: Electric Indigo (#6366f1) - Modern tech feel, distinct from generic blue.
-       - Secondary Accent: Teal/Cyan (#06b6d4) - High contrast for data, represents "live" status.
-       - Danger: Crimson (#ef4444) and Orange (#f97316) - Standard, clear alert colors.
-       - Text: White (#ffffff) and Light Gray (#cbd5e1) - Maximum readability.
+       COLOR PALETTE: Modern Enterprise Security (Light Mode)
+       - Background: Light Slate/Blue-Grey Gradient (#f0f4f8 to #ffffff)
+       - Primary: Deep Navy (#1e3a8a)
+       - Accent: Electric Blue (#2563eb)
+       - Text: Dark Slate (#1e293b)
     */
 
     /* Global Background */
     .stApp {
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        color: #cbd5e1;
+        background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
+        color: #1e293b;
     }
 
-    /* Typography: Hybrid Approach */
-    /* Headers: Clean Sans-Serif for modern UI feel */
-    h1, h2, h3, h4, h5, h6, [data-testid="stMetricLabel"], [data-testid="stTab"] {
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-        color: #ffffff !important;
+        color: #1e3a8a !important;
         font-weight: 700;
         letter-spacing: -0.025em;
     }
 
-    /* Body: Times New Roman for Academic/Research integrity as requested */
+    h1 {
+        border-bottom: 2px solid #2563eb;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-size: 2.5rem !important;
+        color: #1e3a8a !important;
+    }
+
+    h2, h3 {
+        color: #2563eb !important;
+        margin-top: 20px;
+    }
+
     p, li, div, span, label, a, button, .stMarkdown, .stAlert {
         font-family: 'Times New Roman', Times, serif !important;
-        color: #cbd5e1 !important;
+        color: #334155 !important;
         font-size: 1.1rem;
         line-height: 1.6;
     }
 
-    h1 {
-        border-bottom: 2px solid #6366f1;
-        padding-bottom: 15px;
-        margin-bottom: 20px;
-        font-size: 2.5rem !important;
-        text-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-    }
-
-    h2, h3 {
-        color: #06b6d4 !important; /* Teal for subheaders to differentiate */
-        margin-top: 20px;
-    }
-
-    /* Navigation Tabs - Modern Glass Style */
+    /* Navigation Tabs - Clean Professional Style */
     .stTabs [data-testid="stTab"] {
-        color: #94a3b8;
+        color: #64748b;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 600;
         font-size: 0.9rem;
         background: transparent;
         border: 1px solid transparent;
         border-radius: 8px;
         padding: 10px 20px;
-        transition: all 0.3s ease;
         margin: 0 5px;
+        transition: all 0.3s ease;
     }
 
     .stTabs [data-testid="stTab"]:hover {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #2563eb;
+        background: #f1f5f9;
     }
 
     .stTabs [data-testid="stTab"][aria-selected="true"] {
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        background: #2563eb;
         color: #ffffff !important;
-        border: none;
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
         font-weight: 700;
     }
 
-    /* Metric Cards - Glassmorphism with Teal Accent */
+    /* Metric Cards - White with Shadow and Border */
     [data-testid="stMetric"] {
-        background: rgba(30, 41, 59, 0.7);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(6, 182, 212, 0.2);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 25px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         text-align: center;
-        transition: transform 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
     [data-testid="stMetric"]:hover {
         transform: translateY(-2px);
-        border: 1px solid rgba(6, 182, 212, 0.5);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border: 1px solid #2563eb;
     }
 
     [data-testid="stMetricValue"] {
-        color: #06b6d4 !important;
+        color: #2563eb !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 800;
         font-size: 2.5rem !important;
-        text-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
     }
 
     [data-testid="stMetricLabel"] {
-        color: #94a3b8 !important;
+        color: #64748b !important;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
         font-weight: 600;
         font-size: 0.8rem !important;
@@ -131,94 +125,118 @@ st.markdown("""
         letter-spacing: 1.5px;
     }
 
-    /* Tables - Clean Dark Grid */
+    /* Tables - Clean Light Grid */
     div[data-testid="stDataFrame"], div[data-testid="stTable"] {
-        border: 1px solid rgba(148, 163, 184, 0.1);
+        border: 1px solid #e2e8f0;
         border-radius: 8px;
-        background: rgba(30, 41, 59, 0.5);
-        color: #e2e8f0;
+        background: #ffffff;
+        color: #1e293b;
     }
 
-    /* Alert Boxes - Professional, Non-Cartoonish */
+    /* Alert Boxes - Professional Security Alerts */
     .threat-high {
-        background: rgba(249, 115, 22, 0.1);
+        background: #fff7ed;
         border-left: 5px solid #f97316;
         padding: 30px;
         border-radius: 8px;
-        color: #fb923c !important;
-        box-shadow: 0 4px 20px rgba(249, 115, 22, 0.2);
+        color: #9a3412 !important;
+        box-shadow: 0 4px 6px -1px rgba(249, 115, 22, 0.1);
     }
 
     .threat-high h1, .threat-high h3, .threat-high p {
-        color: #fb923c !important;
+        color: #9a3412 !important;
     }
 
     .threat-critical {
-        background: rgba(239, 68, 68, 0.1);
+        background: #fef2f2;
         border-left: 5px solid #ef4444;
         padding: 30px;
         border-radius: 8px;
-        color: #f87171 !important;
-        box-shadow: 0 4px 20px rgba(239, 68, 68, 0.2);
+        color: #b91c1c !important;
+        box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.1);
     }
 
     .threat-critical h1, .threat-critical h3, .threat-critical p {
-        color: #f87171 !important;
+        color: #b91c1c !important;
     }
 
     .threat-moderate {
-        background: rgba(52, 211, 153, 0.1);
-        border-left: 5px solid #34d399;
+        background: #ecfdf5;
+        border-left: 5px solid #10b981;
         padding: 30px;
         border-radius: 8px;
-        color: #6ee7b7 !important;
-        box-shadow: 0 4px 20px rgba(52, 211, 153, 0.2);
+        color: #047857 !important;
+        box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1);
     }
 
     .threat-moderate h1, .threat-moderate h3, .threat-moderate p {
-        color: #6ee7b7 !important;
+        color: #047857 !important;
     }
 
-    /* Info/Warning Boxes - Adapted to Dark Theme */
+    /* Info/Warning Boxes - Light Theme Adapted */
     .stAlert {
-        background: rgba(30, 41, 59, 0.8);
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        color: #e2e8f0 !important;
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        color: #1e293b !important;
         border-radius: 8px;
     }
     .stAlert p {
-        color: #e2e8f0 !important;
+        color: #1e293b !important;
     }
     
     /* Divider */
     hr {
-        border-color: rgba(148, 163, 184, 0.1) !important;
+        border-color: #e2e8f0 !important;
     }
 
-    /* Professional Container for sections - Glassmorphism */
+    /* Professional Container for sections */
     .professional-container {
-        background: rgba(30, 41, 59, 0.6);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1px solid rgba(148, 163, 184, 0.1);
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 30px;
         margin: 20px 0;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Icon Styling */
+    .icon-svg {
+        width: 24px;
+        height: 24px;
+        vertical-align: middle;
+        margin-right: 8px;
+        fill: currentColor;
+    }
+    .header-icon {
+        width: 32px;
+        height: 32px;
+        vertical-align: middle;
+        margin-right: 12px;
+        fill: #2563eb;
     }
 </style>
 """, unsafe_allow_html=True)
+
+# =====================================
+# ICON DEFINITIONS (SVG)
+# =====================================
+ICON_HOME = '<svg class="header-icon" viewBox="0 0 24 24"><path d="="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>'
+ICON_OVERVIEW = '<svg class="header-icon" viewBox="0 0 24 24"><path d="="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.83L17.17 9H13z"/></svg>'
+ICON_DATASET = '<svg class="header-icon" viewBox="0 0 24 24"><path d="="M20 3H4c-1.1 0-2.0.9-2.0 2.0v14c0 1.1.9 2.0 2.0 2.0h16c1.1 0 2.0-.9 2.0-2.0V5c0-1.1-.9-2.0-2.0-2.0zm0 16H4V5h16v14z"/><path d="="M12 7c-1.1 0-2.0.9-2.0 2.0s.9 2.0 2.0 2.0 2.0-.9 2.0-2.0-.9-2.0-2.0-2.0zm0 10c-2.67 0-8.0 1.34-8.0 4.0v2.0h16v-2.0c0-2.66-5.33-4.0-8.0-4.0z"/></svg>'
+ICON_MODELS = '<svg class="header-icon" viewBox="0 0 24 24"><path d="="M21 2H3c-1.1 0-2.0.9-2.0 2.0v14c0 1.1.9 2.0 2.0 2.0h16c1.1 0 2.0-.9 2.0-2.0V4c0-1.1-.9-2.0-2.0-2.0zm0 16H3V4h16v14zm-10-10h2v2h-2zm0 4h2v6h-2z"/></svg>'
+ICON_PARAMS = '<svg class="header-icon" viewBox="0 0 24 24"><path d="="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 00.12-.61l-1.92-3.32a.488.488 0 00-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 00-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.17.47-.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.48.48 0 00-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0.43-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.17-.47.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>'
+ICON_WARNING = '<svg style="width:20px;height:20px;vertical-align:middle;margin-right:8px;fill:currentcolor;" viewBox="0 0 24 24"><path d="="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>'
 
 # =====================================
 # NAVIGATION
 # =====================================
 home, overview, dataset, models, parameters = st.tabs(
     [
-        "HOME",
-        "PROJECT OVERVIEW",
-        "DATASET",
-        "AI MODELS",
-        "PARAMETERS"
+        f"{ICON_HOME} HOME",
+        f"{ICON_OVERVIEW} PROJECT OVERVIEW",
+        f"{ICON_DATASET} DATASET",
+        f"{ICON_MODELS} AI MODELS",
+        f"{ICON_PARAMS} PARAMETERS"
     ]
 )
 
@@ -248,8 +266,8 @@ with home:
     with c1:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #94a3b8; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">Core Algorithm</h4>
-            <h2 style="margin: 15px 0; color: #6366f1; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;">XGBoost</h2>
+            <h4 style="color: #64748b; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">Core Algorithm</h4>
+            <h2 style="margin: 15px 0; color: #2563eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;">XGBoost</h2>
             <p style="color: #64748b; font-size: 0.8rem;">Advanced Gradient Boosting</p>
         </div>
         """, unsafe_allow_html=True)
@@ -264,8 +282,8 @@ with home:
     with c3:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #94a3b8; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">Forecast Horizon</h4>
-            <h2 style="margin: 15px 0; color: #6366f1; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;">2027</h2>
+            <h4 style="color: #64748b; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1.5px;">Forecast Horizon</h4>
+            <h2 style="margin: 15px 0; color: #2563eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;">2027</h2>
             <p style="color: #64748b; font-size: 0.8rem;">Predictive Analysis</p>
         </div>
         """, unsafe_allow_html=True)
@@ -295,18 +313,17 @@ with home:
         st.markdown("""
         <div class="threat-moderate">
             <h1 style="margin:0;">STABLE STATUS</h1>
-            <h3 style="color: #34d399;">Predicted Threat Level: MODERATE</h3>
+            <h3 style="color: #10b981;">Predicted Threat Level: MODERATE</h3>
             <p>Threat levels are within manageable parameters. Continue standard monitoring and maintenance protocols.</p>
         </div>
         """, unsafe_allow_html=True)
 
 # =====================================
-# PROJECT OVERVIEW (FIXED CONTENT)
+# PROJECT OVERVIEW
 # =====================================
 with overview:
     st.title("Project Overview & Research Context")
     
-    # Content is now placed directly without empty containers
     st.subheader("Research Objective")
     st.write("""
     This system represents the core analytical engine of an MSc Cybersecurity thesis at Mount Kenya University. 
@@ -377,7 +394,7 @@ with models:
     
     st.table(table_data)
     
-    st.warning("Note: XGBoost was selected as the primary model due to superior performance in handling imbalanced cybersecurity datasets and complex non-linear relationships.")
+    st.warning(f"{ICON_WARNING} Note: XGBoost was selected as the primary model due to superior performance in handling imbalanced cybersecurity datasets and complex non-linear relationships.")
 
 # =====================================
 # PARAMETERS
@@ -395,4 +412,4 @@ with parameters:
         height=400
     )
     
-    st.warning("Parameter Significance: Each parameter is weighted by the model based on its historical correlation with threat escalation. Economic instability and patch delays often show high correlation with increased attack surfaces.")
+    st.warning(f"{ICON_WARNING} Parameter Significance: Each parameter is weighted by the model based on its historical correlation with threat escalation. Economic instability and patch delays often show high correlation with increased attack surfaces.")
