@@ -20,157 +20,164 @@ st.set_page_config(
 )
 
 # =====================================
-# PROFESSIONAL STYLE (TIMES NEW ROMAN / BLUE & WHITE)
+# PROFESSIONAL CYBERSECURITY STYLE
 # =====================================
 st.markdown("""
 <style>
-    /* Global Settings */
-    @import url('https://fonts.googleapis.com/css2?family=Times+New+Roman&display=fallback');
-
+    /* Global Background - Deep Slate/Charcoal (Real SOC Aesthetic) */
     .stApp {
-        background: linear-gradient(135deg, #f0f4f8 0%, #ffffff 100%);
-        color: #333333;
-        font-family: 'Times New Roman', Times, serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        color: #e0e0e0;
     }
 
-    /* Typography - Times New Roman */
-    h1, h2, h3, h4, h5, h6, p, div, span, label, li, a, button {
+    /* Typography Configuration */
+    h1, h2, h3, h4, h5, h6 {
         font-family: 'Times New Roman', Times, serif !important;
+        color: #ffffff !important;
+        font-weight: bold;
+        letter-spacing: 0.5px;
     }
 
     h1 {
-        color: #003366 !important;
-        font-size: 2.5rem !important;
-        font-weight: bold;
-        border-bottom: 2px solid #003366;
-        padding-bottom: 10px;
+        border-bottom: 2px solid #0f3460;
+        padding-bottom: 15px;
         margin-bottom: 20px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    h2, h3, h4 {
-        color: #003366 !important;
-        font-weight: bold;
-    }
-
-    p, li {
-        color: #444444 !important;
+    p, li, div, span, label, a, button {
+        font-family: 'Times New Roman', Times, serif !important;
+        color: #c5c5c5 !important;
         font-size: 1.1rem;
         line-height: 1.6;
     }
 
-    /* Navigation Tabs - Clean Professional Look */
+    /* Navigation Tabs - Technical/Professional Look */
     .stTabs [data-testid="stTab"] {
-        color: #003366;
-        font-family: 'Times New Roman', Times, serif !important;
-        font-weight: bold;
+        color: #a8b2d1;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+        font-weight: 600;
+        font-size: 0.9rem;
         background: transparent;
         border: 1px solid transparent;
+        border-radius: 4px 4px 0 0;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
     }
 
     .stTabs [data-testid="stTab"]:hover {
-        color: #0056b3;
-        background: rgba(0, 51, 102, 0.05);
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid #0f3460;
     }
 
     .stTabs [data-testid="stTab"][aria-selected="true"] {
-        background: #ffffff;
-        color: #003366 !important;
-        border: 1px solid #ddd;
-        border-bottom: 1px solid #ffffff;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        background: #0f3460;
+        color: #ffffff !important;
+        border: 1px solid #16213e;
+        border-bottom: 1px solid #16213e;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+        font-weight: bold;
     }
 
-    /* Metric Cards - White with Shadow */
+    /* Metric Cards - Dark Technical Style */
     [data-testid="stMetric"] {
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
+        background: #0f3460;
+        border: 1px solid #1a1a2e;
+        border-radius: 4px;
         padding: 20px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
         text-align: center;
     }
 
     [data-testid="stMetricValue"] {
-        color: #003366 !important;
-        font-weight: bold;
+        color: #00f3ff !important; /* Cyan for data values */
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+        font-weight: 700;
         font-size: 2.0rem !important;
-        font-family: 'Times New Roman', Times, serif !important;
+        text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
     }
 
     [data-testid="stMetricLabel"] {
-        color: #555555 !important;
-        font-weight: bold;
-        font-size: 0.9rem !important;
-        font-family: 'Times New Roman', Times, serif !important;
+        color: #a8b2d1 !important;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+        font-weight: 600;
+        font-size: 0.8rem !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    /* Tables - Clean Academic Style */
+    /* Tables - Dark Grid Style */
     div[data-testid="stDataFrame"], div[data-testid="stTable"] {
-        border: 1px solid #ddd;
+        border: 1px solid #0f3460;
         border-radius: 4px;
-        background: #ffffff;
+        background: #16213e;
+        color: #e0e0e0;
     }
 
-    /* Alert Boxes - Professional Warning Styles */
+    /* Alert Boxes - Professional Security Alerts */
     .threat-high {
-        background: #fff3e0;
+        background: rgba(211, 84, 0, 0.15);
         border-left: 5px solid #d35400;
         padding: 25px;
         border-radius: 4px;
-        color: #333333 !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: #ffccbc !important;
+        box-shadow: 0 4px 15px rgba(211, 84, 0, 0.2);
     }
 
     .threat-high h1, .threat-high h3, .threat-high p {
-        color: #333333 !important;
+        color: #ffccbc !important;
     }
 
     .threat-critical {
-        background: #ffebee;
+        background: rgba(192, 57, 43, 0.15);
         border-left: 5px solid #c0392b;
         padding: 25px;
         border-radius: 4px;
-        color: #333333 !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: #ffcdd2 !important;
+        box-shadow: 0 4px 15px rgba(192, 57, 43, 0.2);
     }
 
     .threat-critical h1, .threat-critical h3, .threat-critical p {
-        color: #333333 !important;
+        color: #ffcdd2 !important;
     }
 
     .threat-moderate {
-        background: #e8f5e9;
+        background: rgba(39, 174, 96, 0.15);
         border-left: 5px solid #27ae60;
         padding: 25px;
         border-radius: 4px;
-        color: #333333 !important;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: #b2dfdb !important;
+        box-shadow: 0 4px 15px rgba(39, 174, 96, 0.2);
     }
 
     .threat-moderate h1, .threat-moderate h3, .threat-moderate p {
-        color: #333333 !important;
+        color: #b2dfdb !important;
     }
 
-    /* Info Boxes */
+    /* Info/Warning Boxes - Dark Theme Adapted */
     .stAlert {
-        background: #ffffff;
-        border: 1px solid #ddd;
-        color: #333333 !important;
+        background: #0f3460;
+        border: 1px solid #1a1a2e;
+        color: #e0e0e0 !important;
+    }
+    .stAlert p {
+        color: #e0e0e0 !important;
     }
     
     /* Divider */
     hr {
-        border-color: #ddd !important;
+        border-color: #0f3460 !important;
     }
 
-    /* Custom Glass/White Container for sections */
+    /* Professional Container for sections */
     .professional-container {
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
+        background: #0f3460;
+        border: 1px solid #1a1a2e;
+        border-radius: 4px;
         padding: 30px;
         margin: 20px 0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -214,8 +221,8 @@ with home:
     with c1:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #555555; margin:0; font-size: 0.9rem;">Core Algorithm</h4>
-            <h2 style="margin: 10px 0; color: #003366;">XGBoost</h2>
+            <h4 style="color: #a8b2d1; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Core Algorithm</h4>
+            <h2 style="margin: 15px 0; color: #00f3ff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;">XGBoost</h2>
             <p style="color: #777777; font-size: 0.8rem;">Advanced Gradient Boosting</p>
         </div>
         """, unsafe_allow_html=True)
@@ -230,8 +237,8 @@ with home:
     with c3:
         st.markdown("""
         <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #555555; margin:0; font-size: 0.9rem;">Forecast Horizon</h4>
-            <h2 style="margin: 10px 0; color: #003366;">2027</h2>
+            <h4 style="color: #a8b2d1; margin:0; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Forecast Horizon</h4>
+            <h2 style="margin: 15px 0; color: #00f3ff; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;">2027</h2>
             <p style="color: #777777; font-size: 0.8rem;">Predictive Analysis</p>
         </div>
         """, unsafe_allow_html=True)
@@ -267,16 +274,12 @@ with home:
         """, unsafe_allow_html=True)
 
 # =====================================
-# PROJECT OVERVIEW
+# PROJECT OVERVIEW (FIXED CONTENT)
 # =====================================
 with overview:
     st.title("Project Overview & Research Context")
     
-    st.markdown("""
-    <div class="professional-container">
-    </div>
-    """, unsafe_allow_html=True)
-    
+    # Content is now placed directly without empty containers
     st.subheader("Research Objective")
     st.write("""
     This system represents the core analytical engine of an MSc Cybersecurity thesis at Mount Kenya University. 
@@ -365,8 +368,4 @@ with parameters:
         height=400
     )
     
-    st.markdown("""
-    <div class="professional-container">
-    </div>
-    """, unsafe_allow_html=True)
     st.warning("Parameter Significance: Each parameter is weighted by the model based on its historical correlation with threat escalation. Economic instability and patch delays often show high correlation with increased attack surfaces.")
