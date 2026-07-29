@@ -6,192 +6,64 @@ from zoneinfo import ZoneInfo
 
 from cyber_threat_model import (
 
-    predict_2027,
+predict_2027,
 
-    get_model_accuracy,
+get_model_accuracy,
 
-    get_results,
+get_results,
 
-    get_dataset,
+get_dataset,
 
-    get_parameters
+get_parameters
 
 )
 
-
-
-# =====================================================
-# PAGE CONFIGURATION
-# =====================================================
 
 
 st.set_page_config(
 
-    page_title="Cyber Threat Prediction System",
+page_title="Cyber Threat Prediction System",
 
-    page_icon="🛡️",
-
-    layout="wide"
+layout="wide"
 
 )
 
 
 
-# =====================================================
-# WEBSITE STYLE DESIGN
-# =====================================================
+# =====================================
+# STYLE
+# =====================================
 
 
-st.markdown(
-
-"""
+st.markdown("""
 
 <style>
 
 
-/* MAIN BACKGROUND */
-
 .stApp{
 
-background:
-
-linear-gradient(
-
-135deg,
-
-#021B4B,
-
-#064789,
-
-#0B63CE
-
-);
+background:#eaf6ff;
 
 }
 
-
-/* REMOVE TOP SPACE */
-
-.block-container{
-
-padding-top:15px;
-
-padding-left:40px;
-
-padding-right:40px;
-
-}
-
-
-
-/* HEADINGS */
 
 h1,h2,h3{
 
-color:white !important;
-
-font-weight:900;
+color:#003366;
 
 }
 
-
-
-p{
-
-color:white;
-
-font-size:16px;
-
-}
-
-
-
-/* TOP NAVIGATION TABS */
-
-
-.stTabs [data-baseweb="tab-list"]{
-
-
-display:flex;
-
-justify-content:flex-end;
-
-gap:12px;
-
-width:100%;
-
-margin-bottom:20px;
-
-}
-
-
-
-.stTabs [data-baseweb="tab"]{
-
-
-background:#003366;
-
-color:white;
-
-padding:12px 25px;
-
-border-radius:10px;
-
-font-weight:800;
-
-font-size:15px;
-
-border:1px solid #FF9800;
-
-
-}
-
-
-
-.stTabs [aria-selected="true"]{
-
-
-background:#FF9800 !important;
-
-color:white !important;
-
-
-}
-
-
-
-/* METRIC CARDS */
 
 
 [data-testid="stMetric"]{
 
-
 background:white;
 
-padding:20px;
+padding:18px;
 
 border-radius:15px;
 
-border:3px solid #FF9800;
-
-box-shadow:
-
-0px 5px 20px rgba(0,0,0,0.4);
-
-
-}
-
-
-
-[data-testid="stMetricLabel"]{
-
-
-color:#003366 !important;
-
-font-weight:bold;
-
-font-size:16px;
-
+border:2px solid #b7d7f0;
 
 }
 
@@ -199,41 +71,12 @@ font-size:16px;
 
 [data-testid="stMetricValue"]{
 
-
-color:#D35400 !important;
+color:#d35400 !important;
 
 font-weight:900;
 
-font-size:32px;
-
-
 }
 
-
-
-/* TABLES */
-
-
-[data-testid="stDataFrame"]{
-
-
-background:white;
-
-border-radius:15px;
-
-
-}
-
-
-/* BUTTON / INFO BOX */
-
-.stAlert{
-
-
-border-radius:15px;
-
-
-}
 
 
 </style>
@@ -247,13 +90,12 @@ unsafe_allow_html=True
 
 
 
-
-# =====================================================
+# =====================================
 # NAVIGATION
-# =====================================================
+# =====================================
 
 
-home, dataset, models, parameters = st.tabs(
+home,dataset,models,parameters = st.tabs(
 
 [
 
@@ -271,115 +113,75 @@ home, dataset, models, parameters = st.tabs(
 
 
 
-
-# =====================================================
-# HOME PAGE
-# =====================================================
+# =====================================
+# HOME
+# =====================================
 
 
 with home:
 
 
     st.title(
-
-        "MSc Cybersecurity Project"
-
+    "MSc Cybersecurity Project"
     )
 
 
     st.subheader(
-
-        "Mount Kenya University"
-
+    "Mount Kenya University"
     )
 
 
     st.write(
-
-        "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
-
+    "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
     )
 
 
     st.write(
-
-        "Author: Stephen Musau Makau"
-
+    "Author: Stephen Musau Makau"
     )
 
 
     st.caption(
 
-        "Prediction Report Generated: "
-
-        +
-
-        datetime.now(
-
-            ZoneInfo("Africa/Nairobi")
-
-        ).strftime(
-
-            "%d %B %Y | %H:%M:%S EAT"
-
-        )
-
+    datetime.now(
+    ZoneInfo("Africa/Nairobi")
+    ).strftime(
+    "%d %B %Y | %H:%M:%S EAT"
     )
 
+    )
 
 
     st.divider()
 
 
 
-    prediction = predict_2027()
+    prediction=predict_2027()
 
-
-    accuracy = get_model_accuracy()*100
-
-
-
-    col1,col2,col3 = st.columns(3)
+    accuracy=get_model_accuracy()*100
 
 
 
-    with col1:
-
-
-        st.metric(
-
-            "Algorithm",
-
-            "XGBoost"
-
-        )
+    c1,c2,c3=st.columns(3)
 
 
 
-    with col2:
+    c1.metric(
+    "Algorithm",
+    "XGBoost"
+    )
 
 
-        st.metric(
-
-            "Accuracy",
-
-            f"{accuracy:.2f}%"
-
-        )
+    c2.metric(
+    "Accuracy",
+    f"{accuracy:.2f}%"
+    )
 
 
-
-    with col3:
-
-
-        st.metric(
-
-            "Forecast Horizon",
-
-            "2027"
-
-        )
-
+    c3.metric(
+    "Forecast Year",
+    "2027"
+    )
 
 
 
@@ -388,19 +190,12 @@ with home:
 
 
     st.header(
-
-        "2027 Cyber Threat Forecast"
-
+    "2027 Cyber Threat Forecast"
     )
 
 
 
-    # =========================================
-    # THREAT STATUS PANEL
-    # =========================================
-
-
-    if prediction == "High":
+    if prediction=="High":
 
 
         st.markdown(
@@ -408,34 +203,21 @@ with home:
         """
 
         <div style="
-
         background:#F57C00;
-
-        padding:40px;
-
-        border-radius:20px;
-
+        padding:30px;
+        border-radius:15px;
         text-align:center;
-
-        border:3px solid white;
-
-        box-shadow:0 0 25px rgba(0,0,0,0.5);
-
         ">
 
 
         <h1 style="color:white;">
-
         HIGH RISK
-
         </h1>
 
 
-        <h2 style="color:white;">
-
+        <h3 style="color:white;">
         Predicted Level: High
-
-        </h2>
+        </h3>
 
 
         </div>
@@ -451,249 +233,107 @@ with home:
     elif prediction=="Critical":
 
 
-        st.markdown(
-
-        """
-
-        <div style="
-
-        background:#B71C1C;
-
-        padding:40px;
-
-        border-radius:20px;
-
-        text-align:center;
-
-        border:3px solid white;
-
-        ">
-
-
-        <h1 style="color:white;">
-
-        CRITICAL RISK
-
-        </h1>
-
-
-        <h2 style="color:white;">
-
-        Predicted Level: Critical
-
-        </h2>
-
-
-        </div>
-
-        """,
-
-        unsafe_allow_html=True
-
+        st.error(
+        "CRITICAL RISK"
         )
-
 
 
     else:
 
 
-        st.markdown(
-
-        """
-
-        <div style="
-
-        background:#2E7D32;
-
-        padding:40px;
-
-        border-radius:20px;
-
-        text-align:center;
-
-        border:3px solid white;
-
-        ">
-
-
-        <h1 style="color:white;">
-
-        MODERATE RISK
-
-        </h1>
-
-
-        </div>
-
-        """,
-
-        unsafe_allow_html=True
-
+        st.success(
+        "MODERATE RISK"
         )
 
 
 
 
 
-
-# =====================================================
-# DATASET TAB
-# =====================================================
+# =====================================
+# DATASET
+# =====================================
 
 
 with dataset:
 
 
     st.title(
-
-        "Cyber Threat Dataset"
-
-    )
-
-
-    st.write(
-
-        "Historical cybersecurity indicators used during machine learning training."
-
+    "Cyber Threat Dataset"
     )
 
 
     st.dataframe(
 
-        get_dataset(),
+    get_dataset(),
 
-        use_container_width=True
+    use_container_width=True
 
     )
 
 
 
-
-
-
-# =====================================================
-# MODELS TAB
-# =====================================================
+# =====================================
+# MODELS
+# =====================================
 
 
 with models:
 
 
     st.title(
-
-        "Machine Learning Algorithms Evaluated"
-
+    "Machine Learning Algorithms"
     )
 
 
     results=get_results()
 
 
-
-    model_table=[]
-
+    table=[]
 
 
-    for model,score in results.items():
+    for name,value in results.items():
+
+        table.append({
+
+        "Algorithm":name,
+
+        "Accuracy":f"{value*100:.2f}%"
+
+        })
 
 
-        model_table.append(
-
-        {
-
-        "Algorithm":model,
-
-        "Accuracy":f"{score*100:.2f}%"
-
-        }
-
-        )
+    st.table(table)
 
 
 
-    st.table(
-
-        model_table
-
-    )
-
-
-
-    st.info(
-
-    """
-
-    Evaluated Algorithms:
-
-
-    • Logistic Regression
-
-
-    • Random Forest
-
-
-    • XGBoost Classifier
-
-
-
-    Selected Prediction Model:
-
-
-    XGBoost
-
-
-    """
-
-    )
-
-
-
-
-
-
-# =====================================================
-# PARAMETERS TAB
-# =====================================================
+# =====================================
+# PARAMETERS
+# =====================================
 
 
 with parameters:
 
 
     st.title(
-
-        "Prediction Parameters Evaluated"
-
+    "Prediction Parameters Evaluated"
     )
 
 
     st.write(
 
     """
-
-    These parameters influence the final 2027 cyber threat projection:
-
-
-    - Attack frequency
-
-    - Vulnerability levels
-
-    - Security delays
-
-    - Network activity
-
-    - Economic indicators
-
-
+    The following cybersecurity, technological,
+    and economic variables contribute to the
+    final 2027 threat projection.
     """
 
     )
 
 
-
     st.dataframe(
 
-        get_parameters(),
+    get_parameters(),
 
-        use_container_width=True
+    use_container_width=True
 
     )
