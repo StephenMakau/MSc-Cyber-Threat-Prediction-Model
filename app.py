@@ -12,6 +12,10 @@ from cyber_threat_model import (
 )
 
 
+# =====================================================
+# PAGE SETTINGS
+# =====================================================
+
 st.set_page_config(
     page_title="Cyber Threat Prediction System",
     layout="wide",
@@ -19,37 +23,42 @@ st.set_page_config(
 )
 
 
+
 # =====================================================
-# SESSION MODE
+# THEME CONTROL
 # =====================================================
 
 if "theme" not in st.session_state:
     st.session_state.theme = "Light"
 
 
-# =====================================================
-# STYLE
-# =====================================================
 
 if st.session_state.theme == "Light":
 
-    background = "#D9F3F0"
+    background = "#DDF6F3"
     text_color = "#003366"
     card_background = "#FFFFFF"
-    border_color = "#9AD9D5"
+    border_color = "#8ED8D2"
+    table_text = "#000000"
 
 else:
 
-    background = "#0B1628"
+    background = "#101820"
     text_color = "#FFFFFF"
-    card_background = "#172A46"
-    border_color = "#355C8A"
+    card_background = "#1C2B3A"
+    border_color = "#456A89"
+    table_text = "#FFFFFF"
 
 
+
+# =====================================================
+# CSS
+# =====================================================
 
 st.markdown(f"""
 
 <style>
+
 
 .stApp {{
 
@@ -58,11 +67,14 @@ background:{background};
 }}
 
 
+
 .block-container {{
 
 max-width:1400px;
 
 padding-top:1rem;
+
+padding-bottom:2rem;
 
 }}
 
@@ -78,7 +90,7 @@ font-weight:800;
 
 
 
-p,label {{
+p,span,label {{
 
 color:{text_color};
 
@@ -96,7 +108,7 @@ border-radius:15px;
 
 border:2px solid {border_color};
 
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0px 5px 15px rgba(0,0,0,0.12);
 
 }}
 
@@ -114,7 +126,7 @@ font-weight:bold;
 
 [data-testid="stMetricValue"] {{
 
-color:#D35400 !important;
+color:#C75B12 !important;
 
 font-weight:900;
 
@@ -124,9 +136,11 @@ font-weight:900;
 
 button[data-baseweb="tab"] {{
 
-color:{text_color};
+font-size:15px;
 
-font-weight:bold;
+font-weight:700;
+
+color:{text_color};
 
 }}
 
@@ -134,9 +148,31 @@ font-weight:bold;
 
 button[data-baseweb="tab"][aria-selected="true"] {{
 
-background:#7ACFC7;
+background:#8ED8D2;
 
-border-radius:8px;
+border-radius:10px;
+
+color:#003366 !important;
+
+}}
+
+
+
+thead tr th {{
+
+background:#003366 !important;
+
+color:white !important;
+
+}}
+
+
+
+tbody tr td {{
+
+background:{card_background} !important;
+
+color:{table_text} !important;
 
 }}
 
@@ -144,7 +180,7 @@ border-radius:8px;
 
 .forecast-card {{
 
-background:#008B8B;
+background:#007C83;
 
 padding:35px;
 
@@ -180,29 +216,10 @@ color:white;
 
 
 
-thead tr th {{
-
-background:#003366 !important;
-
-color:white !important;
-
-}}
-
-
-
-tbody tr td {{
-
-background:{card_background} !important;
-
-color:{text_color} !important;
-
-}}
-
-
-
 @media(max-width:768px){{
 
-.block-container{{
+
+.block-container {{
 
 padding-left:1rem;
 
@@ -210,7 +227,16 @@ padding-right:1rem;
 
 }}
 
+
+[data-testid="stMetric"] {{
+
+padding:12px;
+
 }}
+
+
+}}
+
 
 
 </style>
@@ -222,23 +248,25 @@ unsafe_allow_html=True
 
 
 # =====================================================
-# TABS
+# NAVIGATION
 # =====================================================
 
 home, dataset, models, parameters, mode = st.tabs(
+
 [
-"HOME",
-"DATASET",
-"MODELS",
-"PARAMETERS",
-"MODE"
+"🏠 Dashboard",
+"📊 Dataset Analysis",
+"🤖 ML Models",
+"⚙ Prediction Parameters",
+"🌓 Theme Settings"
 ]
+
 )
 
 
 
 # =====================================================
-# HOME
+# DASHBOARD
 # =====================================================
 
 with home:
@@ -278,16 +306,18 @@ with home:
     st.divider()
 
 
+
     prediction = predict_2027()
 
     accuracy = get_model_accuracy()*100
 
 
 
-    c1,c2,c3 = st.columns(3)
+    col1,col2,col3 = st.columns(3)
 
 
-    with c1:
+
+    with col1:
 
         st.metric(
             "Algorithm",
@@ -295,7 +325,7 @@ with home:
         )
 
 
-    with c2:
+    with col2:
 
         st.metric(
             "Accuracy",
@@ -303,7 +333,7 @@ with home:
         )
 
 
-    with c3:
+    with col3:
 
         st.metric(
             "Forecast Year",
@@ -311,7 +341,9 @@ with home:
         )
 
 
+
     st.divider()
+
 
 
     st.header(
@@ -319,7 +351,9 @@ with home:
     )
 
 
+
     if prediction == "High":
+
 
         st.markdown(
 
@@ -340,6 +374,7 @@ with home:
 
         </div>
 
+
         </div>
 
         """,
@@ -351,11 +386,14 @@ with home:
 
     elif prediction == "Critical":
 
+
         st.error(
             "CRITICAL RISK"
         )
 
+
     else:
+
 
         st.success(
             "MODERATE RISK"
@@ -403,26 +441,31 @@ with models:
     )
 
 
-    results=get_results()
+    results = get_results()
 
 
-    table=[]
+    model_table = []
 
 
     for name,value in results.items():
 
-        table.append({
+
+        model_table.append(
+
+        {
 
         "Algorithm":name,
 
         "Accuracy":f"{value*100:.2f}%"
 
-        })
+        }
+
+        )
 
 
     st.dataframe(
 
-        table,
+        model_table,
 
         use_container_width=True,
 
@@ -472,20 +515,20 @@ with parameters:
 
 
 # =====================================================
-# MODE SWITCH
+# THEME SETTINGS
 # =====================================================
 
 with mode:
 
 
     st.title(
-        "Display Mode"
+        "Theme Settings"
     )
 
 
-    selected = st.radio(
+    selected_theme = st.radio(
 
-        "Select interface theme",
+        "Select Display Mode",
 
         [
             "Light",
@@ -497,8 +540,9 @@ with mode:
     )
 
 
-    if selected != st.session_state.theme:
 
-        st.session_state.theme = selected
+    if selected_theme != st.session_state.theme:
+
+        st.session_state.theme = selected_theme
 
         st.rerun()
