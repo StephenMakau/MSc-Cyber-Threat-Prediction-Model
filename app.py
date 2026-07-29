@@ -12,7 +12,9 @@ get_model_accuracy,
 
 get_results,
 
-get_dataset
+get_dataset,
+
+get_parameters
 
 )
 
@@ -28,18 +30,19 @@ layout="wide"
 
 
 
-# ===============================
-# THEME
-# ===============================
+# =====================================
+# STYLE
+# =====================================
 
 
 st.markdown("""
 
 <style>
 
+
 .stApp{
 
-background:#e8f4ff;
+background:#eaf6ff;
 
 }
 
@@ -51,38 +54,48 @@ color:#003366;
 }
 
 
-button{
-
-font-weight:bold;
-
-}
-
 
 [data-testid="stMetric"]{
 
 background:white;
 
-padding:15px;
+padding:18px;
 
 border-radius:15px;
 
-border:1px solid #b0cce5;
+border:2px solid #b7d7f0;
 
 }
 
 
+
+[data-testid="stMetricValue"]{
+
+color:#d35400 !important;
+
+font-weight:900;
+
+}
+
+
+
 </style>
 
-""",unsafe_allow_html=True)
+
+""",
+
+unsafe_allow_html=True
+
+)
 
 
 
-# ===============================
-# TOP NAVIGATION
-# ===============================
+# =====================================
+# NAVIGATION
+# =====================================
 
 
-home, dataset, models = st.tabs(
+home,dataset,models,parameters = st.tabs(
 
 [
 
@@ -90,7 +103,9 @@ home, dataset, models = st.tabs(
 
 "📊 DATASET",
 
-"🤖 MODELS"
+"🤖 MODELS",
+
+"⚙ PARAMETERS"
 
 ]
 
@@ -98,9 +113,9 @@ home, dataset, models = st.tabs(
 
 
 
-# ===============================
-# HOME PAGE
-# ===============================
+# =====================================
+# HOME
+# =====================================
 
 
 with home:
@@ -128,11 +143,11 @@ with home:
 
     st.caption(
 
-    "Report Generated: " +
-
     datetime.now(
     ZoneInfo("Africa/Nairobi")
-    ).strftime("%d %B %Y | %H:%M:%S EAT")
+    ).strftime(
+    "%d %B %Y | %H:%M:%S EAT"
+    )
 
     )
 
@@ -151,28 +166,23 @@ with home:
 
 
 
-    with c1:
-
-        st.metric(
-        "Algorithm",
-        "XGBoost"
-        )
+    c1.metric(
+    "Algorithm",
+    "XGBoost"
+    )
 
 
-    with c2:
-
-        st.metric(
-        "Accuracy",
-        f"{accuracy:.2f}%"
-        )
+    c2.metric(
+    "Accuracy",
+    f"{accuracy:.2f}%"
+    )
 
 
-    with c3:
+    c3.metric(
+    "Forecast Year",
+    "2027"
+    )
 
-        st.metric(
-        "Forecast",
-        "2027"
-        )
 
 
     st.divider()
@@ -180,37 +190,68 @@ with home:
 
 
     st.header(
-    "Cyber Threat Forecast"
+    "2027 Cyber Threat Forecast"
     )
 
 
 
-    if prediction=="Critical":
+    if prediction=="High":
 
-        st.error(
-        f"CRITICAL RISK\n\nPredicted Level: {prediction}"
+
+        st.markdown(
+
+        """
+
+        <div style="
+        background:#F57C00;
+        padding:30px;
+        border-radius:15px;
+        text-align:center;
+        ">
+
+
+        <h1 style="color:white;">
+        HIGH RISK
+        </h1>
+
+
+        <h3 style="color:white;">
+        Predicted Level: High
+        </h3>
+
+
+        </div>
+
+        """,
+
+        unsafe_allow_html=True
+
         )
 
 
-    elif prediction=="High":
 
-        st.warning(
-        f"HIGH RISK\n\nPredicted Level: {prediction}"
+    elif prediction=="Critical":
+
+
+        st.error(
+        "CRITICAL RISK"
         )
 
 
     else:
 
+
         st.success(
-        f"MODERATE RISK\n\nPredicted Level: {prediction}"
+        "MODERATE RISK"
         )
 
 
 
 
-# ===============================
-# DATASET PAGE
-# ===============================
+
+# =====================================
+# DATASET
+# =====================================
 
 
 with dataset:
@@ -218,11 +259,6 @@ with dataset:
 
     st.title(
     "Cyber Threat Dataset"
-    )
-
-
-    st.write(
-    "Historical cybersecurity indicators used for model training."
     )
 
 
@@ -236,60 +272,68 @@ with dataset:
 
 
 
-# ===============================
-# MODELS PAGE
-# ===============================
+# =====================================
+# MODELS
+# =====================================
 
 
 with models:
 
 
     st.title(
-    "Machine Learning Models"
+    "Machine Learning Algorithms"
     )
 
 
     results=get_results()
 
 
-    model_table=[]
+    table=[]
 
 
-    for model,score in results.items():
+    for name,value in results.items():
 
-        model_table.append(
+        table.append({
 
-        {
+        "Algorithm":name,
 
-        "Algorithm":model,
+        "Accuracy":f"{value*100:.2f}%"
 
-        "Accuracy":f"{score*100:.2f}%"
-
-        }
-
-        )
+        })
 
 
-    st.table(model_table)
+    st.table(table)
 
 
 
-    st.info(
-
-    """
-    Algorithms evaluated:
-
-    • Logistic Regression
-
-    • Random Forest
-
-    • XGBoost
+# =====================================
+# PARAMETERS
+# =====================================
 
 
-    Final selected model:
+with parameters:
 
-    XGBoost Classifier
+
+    st.title(
+    "Prediction Parameters Evaluated"
+    )
+
+
+    st.write(
 
     """
+    The following cybersecurity, technological,
+    and economic variables contribute to the
+    final 2027 threat projection.
+    """
+
+    )
+
+
+    st.dataframe(
+
+    get_parameters(),
+
+    use_container_width=True
 
     )
