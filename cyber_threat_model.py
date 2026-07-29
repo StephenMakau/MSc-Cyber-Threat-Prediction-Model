@@ -152,12 +152,16 @@ xgb_model.fit(
 )
 
 
-xgb_prediction = xgb_model.predict(
-    X_test
-)
-xgb_prediction = xgb_model.predict(
-    X_test
-)
+def get_model_accuracy():
+
+    xgb_prediction = xgb_model.predict(
+        X_test
+    )
+
+    return accuracy_score(
+        y_test,
+        xgb_prediction
+    )
 
 
 model_accuracy = accuracy_score(
