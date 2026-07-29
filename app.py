@@ -3,16 +3,21 @@ import streamlit as st
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
+
 from cyber_threat_model import (
+
     predict_2027,
+
     get_model_accuracy
+
 )
 
 
 
-# =====================================
-# PAGE SETTINGS
-# =====================================
+# ==========================================
+# PAGE CONFIGURATION
+# ==========================================
+
 
 st.set_page_config(
 
@@ -26,9 +31,10 @@ st.set_page_config(
 
 
 
-# =====================================
-# FUTURISTIC THEME
-# =====================================
+# ==========================================
+# COMPUTER PRIDE STYLE THEME
+# ==========================================
+
 
 st.markdown(
 
@@ -36,90 +42,85 @@ st.markdown(
 
 <style>
 
+
 .stApp {
 
-background:
-
-linear-gradient(
-
-135deg,
-
-#d8efff,
-
-#b9dcf5
-
-);
+background:#eef7ff;
 
 }
 
 
+
+.block-container {
+
+padding-top:1rem;
+
+}
+
+
+
 h1 {
 
-color:#06283D;
-
-font-size:42px;
+color:#003366;
 
 font-weight:800;
 
 }
 
 
+
 h2 {
 
-color:#06283D;
+color:#003366;
 
 }
+
 
 
 h3 {
 
-color:#0B3954;
+color:#003366;
 
 }
+
 
 
 [data-testid="stMetric"] {
 
 background:white;
 
-border-radius:15px;
+border-radius:12px;
 
-padding:15px;
+padding:20px;
 
-border:2px solid #0B3954;
+border:1px solid #b7d7f0;
 
-box-shadow:0px 4px 15px rgba(0,0,0,0.15);
+box-shadow:0 4px 12px rgba(0,0,0,0.12);
 
 }
 
 
+
 [data-testid="stMetricLabel"] {
 
-color:#06283D !important;
-
-font-size:17px;
+color:#003366 !important;
 
 font-weight:bold;
 
 }
 
 
+
 [data-testid="stMetricValue"] {
 
-color:#E65100 !important;
+color:#d35400 !important;
 
-font-size:30px;
+font-size:32px;
 
-font-weight:900;
-
-}
-
-
-.stAlert {
-
-font-size:18px;
+font-weight:800;
 
 }
+
 
 
 </style>
@@ -132,45 +133,55 @@ unsafe_allow_html=True
 
 
 
-# =====================================
+# ==========================================
 # HEADER
-# =====================================
+# ==========================================
 
 
-report_time = datetime.now(
+current_time=datetime.now(
 
-    ZoneInfo("Africa/Nairobi")
+ZoneInfo("Africa/Nairobi")
 
 ).strftime(
 
-    "%d %B %Y | %H:%M:%S EAT"
+"%d %B %Y | %H:%M:%S EAT"
 
 )
 
 
 
 st.title(
-    "MSc Cybersecurity Project"
+
+"MSc Cybersecurity Project"
+
 )
 
 
 st.subheader(
-    "Mount Kenya University"
+
+"Mount Kenya University"
+
 )
 
 
 st.write(
-    "Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
+
+"Machine Learning-Based Cyber Threat Trend Prediction for Kenyan Government Digital Services"
+
 )
 
 
 st.write(
-    "Author: Stephen Musau Makau"
+
+"Author: Stephen Musau Makau"
+
 )
 
 
 st.caption(
-    f"Prediction Report Generated: {report_time}"
+
+f"Prediction Report Generated: {current_time}"
+
 )
 
 
@@ -179,19 +190,18 @@ st.divider()
 
 
 
-# =====================================
-# MODEL RESULTS
-# =====================================
+# ==========================================
+# DASHBOARD CARDS
+# ==========================================
 
 
-prediction = predict_2027()
+prediction=predict_2027()
+
+accuracy=get_model_accuracy()*100
 
 
-accuracy = get_model_accuracy() * 100
 
-
-
-col1, col2, col3 = st.columns(3)
+col1,col2,col3=st.columns(3)
 
 
 
@@ -199,7 +209,7 @@ with col1:
 
     st.metric(
 
-        "Algorithm",
+        "Machine Learning Model",
 
         "XGBoost"
 
@@ -211,7 +221,7 @@ with col2:
 
     st.metric(
 
-        "Accuracy",
+        "Prediction Accuracy",
 
         f"{accuracy:.2f}%"
 
@@ -223,7 +233,7 @@ with col3:
 
     st.metric(
 
-        "Forecast Horizon",
+        "Forecast Year",
 
         "2027"
 
@@ -235,53 +245,53 @@ st.divider()
 
 
 
-# =====================================
-# THREAT FORECAST
-# =====================================
+# ==========================================
+# MAIN REPORT SECTION
+# ==========================================
 
 
-st.subheader(
+st.header(
 
-    "2027 CYBER THREAT FORECAST"
+"2027 Cyber Threat Forecast"
 
 )
 
 
 
-if prediction == "Critical":
+if prediction=="Critical":
 
 
     st.error(
 
-        f"""
+    f"""
 
-        ### 🔴 CRITICAL RISK
+    ## CRITICAL RISK
 
 
-        Predicted Threat Level:
+    Predicted Threat Level:
 
-        **{prediction}**
+    **{prediction}**
 
-        """
+    """
 
     )
 
 
-elif prediction == "High":
+elif prediction=="High":
 
 
     st.warning(
 
-        f"""
+    f"""
 
-        ### 🟠 HIGH RISK
+    ## HIGH RISK
 
 
-        Predicted Threat Level:
+    Predicted Threat Level:
 
-        **{prediction}**
+    **{prediction}**
 
-        """
+    """
 
     )
 
@@ -291,16 +301,16 @@ else:
 
     st.success(
 
-        f"""
+    f"""
 
-        ### 🟢 MODERATE RISK
+    ## MODERATE RISK
 
 
-        Predicted Threat Level:
+    Predicted Threat Level:
 
-        **{prediction}**
+    **{prediction}**
 
-        """
+    """
 
     )
 
@@ -310,56 +320,70 @@ st.divider()
 
 
 
-# =====================================
+# ==========================================
 # REPORT INFORMATION
-# =====================================
+# ==========================================
 
 
-left, right = st.columns(2)
+a,b=st.columns(2)
 
 
 
-with left:
+with a:
 
 
     st.info(
 
-        """
+    """
 
-        **Research Dataset**
-
-
-        • Cyber Threat Indicators
-
-        • Economic Variables
-
-        • Vulnerability Intelligence
+    ### Research Dataset
 
 
-        """
+    • Cyber Threat Indicators
+
+
+    • Economic Variables
+
+
+    • Vulnerability Intelligence
+
+
+    """
 
     )
 
 
 
-with right:
+with b:
 
 
     st.success(
 
-        """
+    """
 
-        **Model Information**
-
-
-        Machine Learning Classification
+    ### Model Information
 
 
-        Algorithm:
-
-        XGBoost Classifier
+    Supervised Machine Learning Classification
 
 
-        """
+    Algorithm:
+
+    XGBoost Classifier
+
+
+    """
 
     )
+
+
+
+st.divider()
+
+
+
+st.caption(
+
+"Cyber Threat Prediction Reporting System | MSc Cybersecurity Project | Mount Kenya University"
+
+)
