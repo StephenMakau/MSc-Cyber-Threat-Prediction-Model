@@ -30,7 +30,6 @@ st.markdown("""
        - Background: Deep Slate (#0b1120 to #1e293b)
        - Text: High Contrast White (#f8fafc)
        - Accents: Neon Cyan (#06b6d4), Electric Blue (#3b82f6), Purple (#8b5cf6)
-       - Glow Effects for futuristic feel
     */
 
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
@@ -98,7 +97,7 @@ st.markdown("""
         font-family: Calibri, sans-serif !important;
     }
 
-    /* Navigation Tabs - Tech Style */
+    /* Navigation Tabs - CLOSE TOGETHER (NO GAP) */
     .stTabs [data-testid="stTab"] {
         color: #94a3b8;
         font-family: 'Inter', sans-serif !important;
@@ -106,11 +105,21 @@ st.markdown("""
         font-size: 1rem;
         background: rgba(30, 41, 59, 0.6);
         border: 1px solid rgba(6, 182, 212, 0.2);
-        border-radius: 8px;
+        border-radius: 0;
         padding: 12px 24px;
-        margin: 0 8px 15px 0;
+        margin: 0 -1px 15px 0;  /* Negative margin to overlap borders */
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
+        position: relative;
+    }
+
+    .stTabs [data-testid="stTab"]:first-child {
+        border-radius: 8px 0 0 8px;
+    }
+
+    .stTabs [data-testid="stTab"]:last-child {
+        border-radius: 0 8px 8px 0;
+        margin-right: 0;
     }
 
     .stTabs [data-testid="stTab"]:hover {
@@ -118,7 +127,7 @@ st.markdown("""
         background: rgba(6, 182, 212, 0.1);
         border-color: #06b6d4;
         box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
-        transform: translateY(-2px);
+        z-index: 1;
     }
 
     .stTabs [data-testid="stTab"][aria-selected="true"] {
@@ -127,6 +136,7 @@ st.markdown("""
         border: 1px solid #06b6d4;
         font-weight: 700;
         box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        z-index: 2;
     }
 
     /* Metric Cards - Futuristic Glass */
@@ -186,7 +196,6 @@ st.markdown("""
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
     
-    /* Dataframe cells */
     .stDataFrame td, .stDataFrame th {
         color: #e2e8f0 !important;
         border-bottom: 1px solid rgba(6, 182, 212, 0.1) !important;
@@ -380,7 +389,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # =====================================
-# NAVIGATION WITH ICONS
+# NAVIGATION WITH ICONS - CLOSE TOGETHER
 # =====================================
 home, overview, dataset, models, parameters = st.tabs(
     [
