@@ -30,15 +30,17 @@ st.markdown("""
         color: #e0e0e0;
     }
 
-    /* Typography */
+    /* Typography Overrides for Safety and Visibility */
     h1, h2, h3, h4, h5, h6 {
         color: #ffffff !important;
         font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         text-shadow: 0 0 10px rgba(188, 19, 254, 0.5);
     }
 
-    p, div, span, label {
+    p, div, span, label, li {
         color: #c5c5c5 !important;
+        font-size: 1.05rem;
+        line-height: 1.6;
     }
 
     /* Glassmorphism Containers */
@@ -48,7 +50,7 @@ st.markdown("""
         -webkit-backdrop-filter: blur(10px);
         border: 1px solid rgba(188, 19, 254, 0.2);
         border-radius: 15px;
-        padding: 20px;
+        padding: 25px;
         margin: 10px 0;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
     }
@@ -77,7 +79,7 @@ st.markdown("""
     }
 
     /* Tables - Cyber Grid Style */
-    div[data-testid="stDataFrame"] {
+    div[data-testid="stDataFrame"], div[data-testid="stTable"] {
         border: 1px solid rgba(0, 243, 255, 0.3);
         border-radius: 10px;
         overflow: hidden;
@@ -177,7 +179,7 @@ with home:
     c1, c2, c3 = st.columns(3)
 
     with c1:
-        st.markdown(f"""
+        st.markdown("""
         <div class="glass-container">
             <h4 style="color:#00f3ff; margin:0;">Core Algorithm</h4>
             <h2 style="margin:0;">XGBoost</h2>
@@ -193,7 +195,7 @@ with home:
         )
 
     with c3:
-        st.markdown(f"""
+        st.markdown("""
         <div class="glass-container">
             <h4 style="color:#bc13fe; margin:0;">Forecast Horizon</h4>
             <h2 style="margin:0;">2027</h2>
@@ -227,50 +229,60 @@ with home:
         <div class="threat-moderate">
             <h1 style="color:#00c853; margin:0;">✅ STABLE STATUS</h1>
             <h3 style="color:#b2dfdb;">Predicted Threat Level: MODERATE</h3>
-            <p>Th levels are within manageable parameters. Continue standard monitoring and maintenance protocols.</p>
+            <p>Threat levels are within manageable parameters. Continue standard monitoring and maintenance protocols.</p>
         </div>
         """, unsafe_allow_html=True)
 
 # =====================================
-# PROJECT OVERVIEW (NEW SECTION)
+# PROJECT OVERVIEW (FIXED SECTION)
 # =====================================
 with overview:
     st.title("📜 Project Overview & Research Context")
     
+    # Using native Streamlit components for reliability and safety
     st.markdown("""
     <div class="glass-container">
-        <h3 style="color:#00f3ff;">Research Objective</h3>
-        <p>This system represents the core analytical engine of an MSc Cybersecurity thesis at Mount Kenya University. 
-        The project addresses the critical need for proactive cyber defense mechanisms within Kenyan Government Digital Services.</p>
-        
-        <h3 style="color:#bc13fe;">The Challenge</h3>
-        <p>As digital transformation accelerates across public sectors, the threat landscape evolves exponentially. 
-        Traditional reactive security measures are insufficient against modern, automated cyber attacks. 
-        There is a critical gap in predictive capabilities for national-level digital infrastructure.</p>
-        
-        <h3 style="color:#00f3ff;">Methodology</h3>
-        <p>This system utilizes <strong>Machine Learning (XGBoost)</strong> to analyze complex correlations between:
-        <ul>
-            <li>Historical cyber attack vectors (DDoS, Malware, Phishing, Web Attacks)</li
-            <li>System vulnerability metrics (Critical CVEs, Patch Delays)</li
-            <li>Network traffic anomalies</li
-            <li>Socio-economic factors (Inflation, GDP Growth) that often correlate with cybercrime rates</li
-        </ul>
-        By synthesizing these diverse data streams, the model forecasts future threat levels, enabling government agencies to 
-        allocate resources and strengthen defenses <strong>before</strong> attacks occur.</p>
-        
-        <h3 style="color:#ff5722;">Strategic Importance</h3>
-        <p>This predictive capability is vital for:
-        <ul>
-            <li>National Security Infrastructure Protection</li
-            <li>Pre-emptive Resource Allocation</li
-            <li>Policy Formulation for Digital Governance</li
-            <li>Enhancing Public Trust in E-Government Services</li
-        </ul>
-        </p>
     </div>
     """, unsafe_allow_html=True)
     
+    st.subheader("🎯 Research Objective", divider=False)
+    st.write("""
+    This system represents the core analytical engine of an MSc Cybersecurity thesis at Mount Kenya University. 
+    The project addresses the critical need for proactive cyber defense mechanisms within Kenyan Government Digital Services.
+    """)
+
+    st.subheader("⚠️ The Challenge", divider=False)
+    st.write("""
+    As digital transformation accelerates across public sectors, the threat landscape evolves exponentially. 
+    Traditional reactive security measures are insufficient against modern, automated cyber attacks. 
+    There is a critical gap in predictive capabilities for national-level digital infrastructure.
+    """)
+
+    st.subheader("🔬 Methodology", divider=False)
+    st.write("""
+    This system utilizes **Machine Learning (XGBoost)** to analyze complex correlations between:
+    """)
+    st.markdown("""
+    - **Historical cyber attack vectors:** DDoS, Malware, Phishing, Web Attacks
+    - **System vulnerability metrics:** Critical CVEs, Patch Delays
+    - **Network traffic anomalies:** Unusual data flow patterns
+    - **Socio-economic factors:** Inflation and GDP Growth rates (which often correlate with cybercrime rates)
+    
+    By synthesizing these diverse data streams, the model forecasts future threat levels, enabling government agencies to 
+    allocate resources and strengthen defenses **before** attacks occur.
+    """)
+
+    st.subheader("🌍 Strategic Importance", divider=False)
+    st.write("""
+    This predictive capability is vital for:
+    """)
+    st.markdown("""
+    - **National Security Infrastructure Protection**
+    - **Pre-emptive Resource Allocation**
+    - **Policy Formulation for Digital Governance**
+    - **Enhancing Public Trust in E-Government Services**
+    """)
+
     st.info("🔒 **Data Privacy Note:** All data displayed in this system is synthetic or anonymized for research purposes. No real-time government data is exposed.")
 
 # =====================================
@@ -323,8 +335,6 @@ with parameters:
     
     st.markdown("""
     <div class="glass-container">
-        <h4 style="color:#00f3ff;">Parameter Significance</h4>
-        <p>Each parameter is weighted by the model based on its historical correlation with threat escalation. 
-        Economic instability and patch delays often show high correlation with increased attack surfaces.</p>
     </div>
     """, unsafe_allow_html=True)
+    st.warning("⚠️ **Parameter Significance:** Each parameter is weighted by the model based on its historical correlation with threat escalation. Economic instability and patch delays often show high correlation with increased attack surfaces.")
