@@ -16,97 +16,45 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+
 from xgboost import XGBClassifier
 
 
 
-# ==========================================
+# ===============================
 # DATASET
-# ==========================================
+# ===============================
 
 
 data = {
 
 
-"Year":[
-2020,2020,2021,2021,
-2022,2022,2023,2023,
-2024,2025
-],
+"Year":[2020,2020,2021,2021,2022,2022,2023,2023,2024,2025],
 
+"Month":[3,9,2,10,3,8,2,11,5,7],
 
-"Month":[
-3,9,2,10,3,
-8,2,11,5,7
-],
+"DDoS_Attacks":[500,700,900,1200,1800,2400,3200,2800,2100,1900],
 
+"Malware_Attacks":[4000,5000,6500,7500,9000,12000,15000,13000,11000,9500],
 
-"DDoS_Attacks":[
-500,700,900,1200,
-1800,2400,3200,
-2800,2100,1900
-],
+"Phishing_Attacks":[600,800,1000,1300,1700,2200,3000,2600,1800,1500],
 
+"Web_Attacks":[1000,1200,1600,2000,2500,3200,4000,3500,3000,2800],
 
-"Malware_Attacks":[
-4000,5000,6500,7500,
-9000,12000,15000,
-13000,11000,9500
-],
+"Critical_CVEs":[20,25,30,35,45,55,70,65,50,45],
 
+"Patch_Delay_Days":[20,18,17,15,14,12,10,11,13,15],
 
-"Phishing_Attacks":[
-600,800,1000,1300,
-1700,2200,3000,
-2600,1800,1500
-],
+"Traffic_Volume":[200000,250000,300000,350000,450000,600000,800000,750000,700000,650000],
 
+"Inflation_Rate":[5.4,5.6,6.1,6.4,7.9,8.5,9.2,7.8,5.7,4.5],
 
-"Web_Attacks":[
-1000,1200,1600,2000,
-2500,3200,4000,
-3500,3000,2800
-],
-
-
-"Critical_CVEs":[
-20,25,30,35,
-45,55,70,
-65,50,45
-],
-
-
-"Patch_Delay_Days":[
-20,18,17,15,
-14,12,10,
-11,13,15
-],
-
-
-"Traffic_Volume":[
-200000,250000,300000,
-350000,450000,600000,
-800000,750000,
-700000,650000
-],
-
-
-"Inflation_Rate":[
-5.4,5.6,6.1,6.4,
-7.9,8.5,9.2,
-7.8,5.7,4.5
-],
-
-
-"GDP_Growth":[
-5.3,5.0,7.5,5.9,
-5.4,5.2,4.8,
-5.6,5.0,5.5
-],
+"GDP_Growth":[5.3,5.0,7.5,5.9,5.4,5.2,4.8,5.6,5.0,5.5],
 
 
 "Economic_Environment":[
-
 "Stable",
 "Stable",
 "Improving",
@@ -117,12 +65,10 @@ data = {
 "Pressure",
 "Improving",
 "Stable"
-
 ],
 
 
 "Threat_Level":[
-
 "Medium",
 "Medium",
 "Medium",
@@ -133,9 +79,7 @@ data = {
 "High",
 "Medium",
 "Medium"
-
 ]
-
 
 }
 
@@ -145,46 +89,33 @@ df=pd.DataFrame(data)
 
 
 
-# ==========================================
+# ===============================
 # ENCODING
-# ==========================================
+# ===============================
 
 
-environment_encoder=LabelEncoder()
+env_encoder=LabelEncoder()
 
 threat_encoder=LabelEncoder()
 
 
-
-df["Economic_Environment"]=environment_encoder.fit_transform(
-
+df["Economic_Environment"]=env_encoder.fit_transform(
 df["Economic_Environment"]
-
 )
-
 
 
 df["Threat_Level"]=threat_encoder.fit_transform(
-
 df["Threat_Level"]
-
 )
 
 
 
-# ==========================================
-# TRAIN MODEL
-# ==========================================
+# ===============================
+# TRAINING DATA
+# ===============================
 
 
-X=df.drop(
-
-"Threat_Level",
-
-axis=1
-
-)
-
+X=df.drop("Threat_Level",axis=1)
 
 y=df["Threat_Level"]
 
@@ -204,7 +135,24 @@ random_state=42
 
 
 
-model=XGBClassifier(
+# ===============================
+# MODELS
+# ===============================
+
+
+log_model=LogisticRegression(max_iter=1000)
+
+
+rf_model=RandomForestClassifier(
+
+n_estimators=200,
+
+random_state=42
+
+)
+
+
+xgb_model=XGBClassifier(
 
 n_estimators=200,
 
@@ -218,38 +166,66 @@ random_state=42
 
 
 
-model.fit(
+log_model.fit(X_train,y_train)
 
-X_train,
+rf_model.fit(X_train,y_train)
 
-y_train
+xgb_model.fit(X_train,y_train)
 
+
+
+# ===============================
+# ACCURACY
+# ===============================
+
+
+model_results={
+
+"Logistic Regression":
+accuracy_score(
+y_test,
+log_model.predict(X_test)
+),
+
+
+"Random Forest":
+accuracy_score(
+y_test,
+rf_model.predict(X_test)
+),
+
+
+"XGBoost":
+accuracy_score(
+y_test,
+xgb_model.predict(X_test)
 )
 
+}
 
-
-# ==========================================
-# MODEL ACCURACY
-# ==========================================
 
 
 def get_model_accuracy():
 
-    prediction=model.predict(X_test)
-
-    return accuracy_score(
-
-        y_test,
-
-        prediction
-
-    )
+    return model_results["XGBoost"]
 
 
 
-# ==========================================
-# 2027 FORECAST
-# ==========================================
+def get_results():
+
+    return model_results
+
+
+
+def get_dataset():
+
+    return df
+
+
+
+# ===============================
+# 2027 PREDICTION
+# ===============================
 
 
 def predict_2027():
@@ -284,10 +260,7 @@ def predict_2027():
     })
 
 
-    result=model.predict(future)
+    prediction=xgb_model.predict(future)
 
 
-    decoded=threat_encoder.inverse_transform(result)
-
-
-    return decoded[0]
+    return threat_encoder.inverse_transform(prediction)[0]
