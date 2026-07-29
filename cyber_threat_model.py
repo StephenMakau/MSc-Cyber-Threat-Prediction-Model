@@ -20,65 +20,36 @@ from xgboost import XGBClassifier
 
 
 
-# =====================================================
-# DATASET
-# =====================================================
+# ===============================
+# DATA
+# ===============================
 
 
 data = {
 
+"Year":[2020,2020,2021,2021,2022,2022,2023,2023,2024,2025],
 
-"Year":
-[2020,2020,2021,2021,2022,2022,2023,2023,2024,2025],
+"Month":[3,9,2,10,3,8,2,11,5,7],
 
+"DDoS_Attacks":[500,700,900,1200,1800,2400,3200,2800,2100,1900],
 
-"Month":
-[3,9,2,10,3,8,2,11,5,7],
+"Malware_Attacks":[4000,5000,6500,7500,9000,12000,15000,13000,11000,9500],
 
+"Phishing_Attacks":[600,800,1000,1300,1700,2200,3000,2600,1800,1500],
 
-"DDoS_Attacks":
-[500,700,900,1200,1800,2400,3200,2800,2100,1900],
+"Web_Attacks":[1000,1200,1600,2000,2500,3200,4000,3500,3000,2800],
 
+"Critical_CVEs":[20,25,30,35,45,55,70,65,50,45],
 
-"Malware_Attacks":
-[4000,5000,6500,7500,9000,12000,15000,13000,11000,9500],
+"Patch_Delay_Days":[20,18,17,15,14,12,10,11,13,15],
 
+"Traffic_Volume":[200000,250000,300000,350000,450000,600000,800000,750000,700000,650000],
 
-"Phishing_Attacks":
-[600,800,1000,1300,1700,2200,3000,2600,1800,1500],
+"Inflation_Rate":[5.4,5.6,6.1,6.4,7.9,8.5,9.2,7.8,5.7,4.5],
 
+"GDP_Growth":[5.3,5.0,7.5,5.9,5.4,5.2,4.8,5.6,5.0,5.5],
 
-"Web_Attacks":
-[1000,1200,1600,2000,2500,3200,4000,3500,3000,2800],
-
-
-"Critical_CVEs":
-[20,25,30,35,45,55,70,65,50,45],
-
-
-"Patch_Delay_Days":
-[20,18,17,15,14,12,10,11,13,15],
-
-
-"Traffic_Volume":
-[
-200000,250000,300000,
-350000,450000,600000,
-800000,750000,
-700000,650000
-],
-
-
-"Inflation_Rate":
-[5.4,5.6,6.1,6.4,7.9,8.5,9.2,7.8,5.7,4.5],
-
-
-"GDP_Growth":
-[5.3,5.0,7.5,5.9,5.4,5.2,4.8,5.6,5.0,5.5],
-
-
-"Economic_Environment":
-[
+"Economic_Environment":[
 "Stable",
 "Stable",
 "Improving",
@@ -91,9 +62,7 @@ data = {
 "Stable"
 ],
 
-
-"Threat_Level":
-[
+"Threat_Level":[
 "Medium",
 "Medium",
 "Medium",
@@ -110,158 +79,139 @@ data = {
 
 
 
-df = pd.DataFrame(data)
+df=pd.DataFrame(data)
 
 
 
-# =====================================================
+# ===============================
 # ENCODING
-# =====================================================
+# ===============================
 
 
-environment_encoder = LabelEncoder()
+env_encoder=LabelEncoder()
 
-threat_encoder = LabelEncoder()
+threat_encoder=LabelEncoder()
 
 
 
-df["Economic_Environment"] = environment_encoder.fit_transform(
-    df["Economic_Environment"]
+df["Economic_Environment"]=env_encoder.fit_transform(
+df["Economic_Environment"]
+)
+
+
+df["Threat_Level"]=threat_encoder.fit_transform(
+df["Threat_Level"]
 )
 
 
 
-df["Threat_Level"] = threat_encoder.fit_transform(
-    df["Threat_Level"]
-)
-
-
-
-# =====================================================
+# ===============================
 # TRAINING
-# =====================================================
+# ===============================
 
 
-X = df.drop(
-    "Threat_Level",
-    axis=1
+X=df.drop(
+"Threat_Level",
+axis=1
 )
 
 
-y = df["Threat_Level"]
+y=df["Threat_Level"]
 
 
 
-X_train, X_test, y_train, y_test = train_test_split(
+X_train,X_test,y_train,y_test=train_test_split(
 
-    X,
+X,
 
-    y,
+y,
 
-    test_size=0.3,
+test_size=0.3,
 
-    random_state=42
-
-)
-
-
-
-# =====================================================
-# XGBOOST MODEL
-# =====================================================
-
-
-xgb_model = XGBClassifier(
-
-    n_estimators=200,
-
-    learning_rate=0.05,
-
-    max_depth=4,
-
-    random_state=42
+random_state=42
 
 )
 
 
 
-xgb_model.fit(
+model=XGBClassifier(
 
-    X_train,
+n_estimators=200,
 
-    y_train
+learning_rate=0.05,
+
+max_depth=4,
+
+random_state=42
 
 )
 
 
 
-# =====================================================
-# MODEL ACCURACY
-# =====================================================
+model.fit(
+
+X_train,
+
+y_train
+
+)
+
+
+
+# ===============================
+# FUNCTIONS
+# ===============================
 
 
 def get_model_accuracy():
 
-    prediction = xgb_model.predict(
-        X_test
-    )
-
+    prediction=model.predict(X_test)
 
     return accuracy_score(
-
         y_test,
-
         prediction
-
     )
 
 
-
-# =====================================================
-# FUTURE PREDICTION
-# =====================================================
 
 
 def predict_2027():
 
+    future=pd.DataFrame({
 
-    future = pd.DataFrame({
+    "Year":[2027],
 
-        "Year":[2027],
+    "Month":[8],
 
-        "Month":[8],
+    "DDoS_Attacks":[4200],
 
-        "DDoS_Attacks":[4200],
+    "Malware_Attacks":[18500],
 
-        "Malware_Attacks":[18500],
+    "Phishing_Attacks":[4100],
 
-        "Phishing_Attacks":[4100],
+    "Web_Attacks":[5200],
 
-        "Web_Attacks":[5200],
+    "Critical_CVEs":[95],
 
-        "Critical_CVEs":[95],
+    "Patch_Delay_Days":[9],
 
-        "Patch_Delay_Days":[9],
+    "Traffic_Volume":[1100000],
 
-        "Traffic_Volume":[1100000],
+    "Inflation_Rate":[6.8],
 
-        "Inflation_Rate":[6.8],
+    "GDP_Growth":[5.2],
 
-        "GDP_Growth":[5.2],
-
-        "Economic_Environment":[2]
+    "Economic_Environment":[2]
 
     })
 
 
-    result = xgb_model.predict(
-        future
+    prediction=model.predict(future)
+
+
+    result=threat_encoder.inverse_transform(
+        prediction
     )
 
 
-    decoded = threat_encoder.inverse_transform(
-        result
-    )
-
-
-    return decoded[0]
+    return result[0]
