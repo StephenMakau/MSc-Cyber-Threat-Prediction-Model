@@ -149,7 +149,21 @@ xgb_model = XGBClassifier(
     random_state=42
 
 )
+xgb_prediction = xgb_model.predict(
+    X_test
+)
 
+
+model_accuracy = accuracy_score(
+    y_test,
+    xgb_prediction
+)
+
+
+print(
+    "Model Accuracy:",
+    model_accuracy
+)
 
 xgb_model.fit(
     X_train,
