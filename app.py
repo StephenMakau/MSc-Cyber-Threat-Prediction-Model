@@ -16,118 +16,127 @@ from cyber_threat_model import (
 st.set_page_config(
     page_title="MKU Cyber Threat Intelligence",
     page_icon="🛡️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
 # =====================================
-# GOOGLE COLORS FUTURISTIC THEME
+# FUTURISTIC DARK TECH THEME
 # =====================================
 st.markdown("""
 <style>
     /* 
-       GOOGLE COLOR PALETTE:
-       - Blue: #4285F4 (Primary)
-       - Red: #EA4335 (Critical/Danger)
-       - Yellow: #FBBC04 (Warnings/High)
-       - Green: #34A853 (Success/Stable)
-       - Background: Material Design Light
+       FUTURISTIC DARK THEME - SOC Dashboard Style
+       - Background: Deep Slate (#0b1120 to #1e293b)
+       - Text: High Contrast White (#f8fafc)
+       - Accents: Neon Cyan (#06b6d4), Electric Blue (#3b82f6), Purple (#8b5cf6)
+       - Glow Effects for futuristic feel
     */
 
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
-    /* Global Background - Material Design Light with Google Blue tint */
+    /* Global Background - Deep Tech Dark */
     .stApp {
-        background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
-        color: #202124;
+        background: linear-gradient(135deg, #0b1120 0%, #1e293b 50%, #0f172a 100%);
+        color: #f8fafc;
     }
 
-    /* Typography: Roboto (Google's font) for headers, Calibri for body */
+    /* Typography - High Contrast */
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif !important;
-        color: #4285F4 !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+        color: #f8fafc !important;
         font-weight: 700;
-        letter-spacing: -0.5px;
+        letter-spacing: -0.02em;
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
     }
 
     h1 {
-        background: linear-gradient(90deg, #4285F4, #34A853);
+        background: linear-gradient(90deg, #06b6d4, #8b5cf6, #3b82f6);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        border-bottom: 3px solid #4285F4;
-        padding-bottom: 15px;
-        margin-bottom: 25px;
-        font-size: 2.8rem !important;
+        border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        font-size: 3rem !important;
+        font-weight: 800 !important;
     }
 
     h2 {
-        color: #1a73e8 !important;
-        margin-top: 30px;
+        color: #06b6d4 !important;
+        margin-top: 35px;
         font-size: 2rem !important;
-        border-left: 4px solid #FBBC04;
-        padding-left: 15px;
+        border-left: 4px solid #06b6d4;
+        padding-left: 20px;
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
     }
     
     h3 {
-        color: #188038 !important;
+        color: #8b5cf6 !important;
         margin-top: 25px;
         font-size: 1.5rem !important;
+        font-weight: 600 !important;
     }
 
-    /* Body Text: Calibri as requested */
+    /* Body Text: Calibri with High Contrast */
     p, li, div, span, label, .stMarkdown, .stAlert {
-        font-family: Calibri, 'Segoe UI', Candara, sans-serif !important;
-        color: #3c4043 !important;
-        font-size: 1.15rem;
-        line-height: 1.7;
+        font-family: Calibri, 'Segoe UI', sans-serif !important;
+        color: #e2e8f0 !important;
+        font-size: 1.2rem;
+        line-height: 1.8;
+        font-weight: 400;
     }
     
     p {
-        margin-bottom: 1rem !important;
+        margin-bottom: 1.2rem !important;
+        color: #cbd5e1 !important;
     }
     
     li {
-        margin-bottom: 0.5rem !important;
+        margin-bottom: 0.8rem !important;
+        color: #cbd5e1 !important;
         font-family: Calibri, sans-serif !important;
     }
 
-    /* Navigation Tabs - Google Style */
+    /* Navigation Tabs - Tech Style */
     .stTabs [data-testid="stTab"] {
-        color: #5f6368;
-        font-family: 'Roboto', sans-serif !important;
-        font-weight: 500;
+        color: #94a3b8;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 600;
         font-size: 1rem;
-        background: #ffffff;
-        border: 2px solid #dadce0;
-        border-radius: 24px;
-        padding: 12px 28px;
+        background: rgba(30, 41, 59, 0.6);
+        border: 1px solid rgba(6, 182, 212, 0.2);
+        border-radius: 8px;
+        padding: 12px 24px;
         margin: 0 8px 15px 0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
     }
 
     .stTabs [data-testid="stTab"]:hover {
-        color: #4285F4;
-        background: #e8f0fe;
-        border-color: #4285F4;
+        color: #06b6d4;
+        background: rgba(6, 182, 212, 0.1);
+        border-color: #06b6d4;
+        box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(66, 133, 244, 0.2);
     }
 
     .stTabs [data-testid="stTab"][aria-selected="true"] {
-        background: #4285F4;
+        background: linear-gradient(135deg, #06b6d4, #3b82f6);
         color: #ffffff !important;
-        border: 2px solid #4285F4;
-        font-weight: 600;
-        box-shadow: 0 4px 15px rgba(66, 133, 244, 0.4);
+        border: 1px solid #06b6d4;
+        font-weight: 700;
+        box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
     }
 
-    /* Metric Cards - Google Material Cards */
+    /* Metric Cards - Futuristic Glass */
     [data-testid="stMetric"] {
-        background: #ffffff;
-        border: none;
+        background: rgba(30, 41, 59, 0.7);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(6, 182, 212, 0.3);
         border-radius: 16px;
         padding: 30px;
-        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
         text-align: center;
         transition: all 0.3s ease;
         position: relative;
@@ -135,8 +144,9 @@ st.markdown("""
     }
 
     [data-testid="stMetric"]:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 4px 20px rgba(66, 133, 244, 0.25);
+        transform: translateY(-5px);
+        border-color: #06b6d4;
+        box-shadow: 0 0 30px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
     }
     
     [data-testid="stMetric"]::before {
@@ -145,181 +155,226 @@ st.markdown("""
         top: 0;
         left: 0;
         right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #4285F4, #34A853);
+        height: 3px;
+        background: linear-gradient(90deg, #06b6d4, #8b5cf6, #3b82f6);
     }
 
     [data-testid="stMetricValue"] {
-        color: #4285F4 !important;
-        font-family: 'Roboto', sans-serif !important;
+        color: #06b6d4 !important;
+        font-family: 'JetBrains Mono', monospace !important;
         font-weight: 700;
         font-size: 3rem !important;
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
     }
 
     [data-testid="stMetricLabel"] {
-        color: #5f6368 !important;
-        font-family: 'Roboto', sans-serif !important;
-        font-weight: 500;
+        color: #94a3b8 !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 600;
         font-size: 0.9rem !important;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-top: 8px;
+        letter-spacing: 2px;
+        margin-top: 10px;
     }
 
-    /* Tables - Google Style */
+    /* Tables - Dark Tech Style */
     div[data-testid="stDataFrame"], div[data-testid="stTable"] {
-        border: 1px solid #dadce0;
+        border: 1px solid rgba(6, 182, 212, 0.2);
         border-radius: 12px;
-        background: #ffffff;
-        color: #202124;
-        box-shadow: 0 1px 2px rgba(60,64,67,0.3);
+        background: rgba(15, 23, 42, 0.8);
+        color: #f8fafc;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Dataframe cells */
+    .stDataFrame td, .stDataFrame th {
+        color: #e2e8f0 !important;
+        border-bottom: 1px solid rgba(6, 182, 212, 0.1) !important;
+    }
+    
+    .stDataFrame th {
+        background: rgba(6, 182, 212, 0.1) !important;
+        color: #06b6d4 !important;
+        font-weight: 600 !important;
     }
 
-    /* Alert Boxes - Google Colors */
+    /* Alert Boxes - Neon Glow Style */
     .threat-high {
-        background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
-        border-left: 6px solid #FBBC04;
+        background: rgba(251, 188, 4, 0.1);
+        border: 1px solid rgba(251, 188, 4, 0.5);
+        border-left: 6px solid #fbbf24;
         border-radius: 12px;
         padding: 30px;
-        color: #b06000 !important;
-        box-shadow: 0 4px 12px rgba(251, 188, 4, 0.2);
+        color: #fcd34d !important;
+        box-shadow: 0 0 30px rgba(251, 188, 4, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
     }
 
     .threat-high h1 {
-        color: #e65100 !important;
+        color: #fbbf24 !important;
+        -webkit-text-fill-color: #fbbf24;
         border-bottom: none;
         font-size: 2.2rem !important;
         margin-bottom: 10px !important;
-        background: none;
-        -webkit-text-fill-color: #e65100;
+        text-shadow: 0 0 20px rgba(251, 188, 4, 0.5);
     }
     
     .threat-high h3 {
-        color: #f57c00 !important;
+        color: #f59e0b !important;
         margin-top: 0 !important;
         border-left: none;
         padding-left: 0;
+        text-shadow: 0 0 10px rgba(251, 188, 4, 0.3);
     }
     
     .threat-high p {
-        color: #6c4f00 !important;
+        color: #fde68a !important;
         font-family: Calibri, sans-serif !important;
     }
 
     .threat-critical {
-        background: linear-gradient(135deg, #fce8e6 0%, #ffcfc9 100%);
-        border-left: 6px solid #EA4335;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.5);
+        border-left: 6px solid #ef4444;
         border-radius: 12px;
         padding: 30px;
-        color: #c5221f !important;
-        box-shadow: 0 4px 12px rgba(234, 67, 53, 0.2);
+        color: #fca5a5 !important;
+        box-shadow: 0 0 30px rgba(239, 68, 68, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
     }
 
     .threat-critical h1 {
-        color: #c5221f !important;
+        color: #ef4444 !important;
+        -webkit-text-fill-color: #ef4444;
         border-bottom: none;
         font-size: 2.2rem !important;
         margin-bottom: 10px !important;
-        background: none;
-        -webkit-text-fill-color: #c5221f;
+        text-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
     }
     
     .threat-critical h3 {
-        color: #d93025 !important;
+        color: #f87171 !important;
         margin-top: 0 !important;
         border-left: none;
         padding-left: 0;
+        text-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
     }
     
     .threat-critical p {
-        color: #5c0c0c !important;
+        color: #fecaca !important;
         font-family: Calibri, sans-serif !important;
     }
 
     .threat-moderate {
-        background: linear-gradient(135deg, #e6f4ea 0%, #c8e6c9 100%);
-        border-left: 6px solid #34A853;
+        background: rgba(16, 185, 129, 0.1);
+        border: 1px solid rgba(16, 185, 129, 0.5);
+        border-left: 6px solid #10b981;
         border-radius: 12px;
         padding: 30px;
-        color: #137333 !important;
-        box-shadow: 0 4px 12px rgba(52, 168, 83, 0.2);
+        color: #6ee7b7 !important;
+        box-shadow: 0 0 30px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
     }
 
     .threat-moderate h1 {
-        color: #137333 !important;
+        color: #34d399 !important;
+        -webkit-text-fill-color: #34d399;
         border-bottom: none;
         font-size: 2.2rem !important;
         margin-bottom: 10px !important;
-        background: none;
-        -webkit-text-fill-color: #137333;
+        text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
     }
     
     .threat-moderate h3 {
-        color: #188038 !important;
+        color: #10b981 !important;
         margin-top: 0 !important;
         border-left: none;
         padding-left: 0;
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
     }
     
     .threat-moderate p {
-        color: #0d5c1e !important;
+        color: #a7f3d0 !important;
         font-family: Calibri, sans-serif !important;
     }
 
-    /* Info/Warning Boxes */
+    /* Info/Warning Boxes - Tech Style */
     .stAlert {
-        background: #e8f0fe;
-        border: 1px solid #4285F4;
-        color: #1967d2 !important;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        color: #06b6d4 !important;
         border-radius: 12px;
         font-family: Calibri, sans-serif !important;
-        border-left: 4px solid #4285F4;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
     
     .stAlert p {
-        color: #1967d2 !important;
+        color: #e2e8f0 !important;
         font-family: Calibri, sans-serif !important;
     }
     
     /* Caption styling */
     .stCaption {
-        color: #5f6368 !important;
-        font-family: Calibri, sans-serif !important;
-        font-size: 0.95rem;
+        color: #64748b !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
     }
     
     /* Divider */
     hr {
-        border-color: #dadce0 !important;
-        margin: 30px 0 !important;
+        border-color: rgba(6, 182, 212, 0.2) !important;
+        margin: 35px 0 !important;
     }
 
-    /* Professional Container - Google Card Style */
-    .professional-container {
-        background: #ffffff;
-        border: none;
+    /* Professional Container - Glassmorphism */
+    .tech-container {
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(6, 182, 212, 0.2);
         border-radius: 16px;
         padding: 30px;
         margin: 20px 0;
-        box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
         position: relative;
         overflow: hidden;
     }
     
-    .professional-container::before {
+    .tech-container::before {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        height: 4px;
-        background: linear-gradient(90deg, #4285F4, #EA4335, #FBBC04, #34A853);
+        height: 2px;
+        background: linear-gradient(90deg, #06b6d4, #8b5cf6, #3b82f6);
     }
     
-    /* Strong text */
+    /* Strong text - Neon effect */
     strong, b {
-        color: #4285F4 !important;
+        color: #06b6d4 !important;
         font-weight: 700;
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #0f172a;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 5px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #06b6d4;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -341,10 +396,10 @@ home, overview, dataset, models, parameters = st.tabs(
 # HOME / COMMAND CENTER
 # =====================================
 with home:
-    st.title("🛡️ Cyber Threat Intelligence System")
-    st.subheader("🏫 Mount Kenya University | MSc Cybersecurity")
-    st.markdown("**👤 Author:** Stephen Musau Makau")
-    st.caption(f"⏱️ System Active: {datetime.now(ZoneInfo('Africa/Nairobi')).strftime('%d %B %Y | %H:%M:%S EAT')}")
+    st.title("🛡️ CYBER THREAT INTELLIGENCE")
+    st.subheader("SYSTEM v2.0.7 | Mount Kenya University")
+    st.markdown("**Operator:** Stephen Musau Makau | **Clearance:** MSc Cybersecurity")
+    st.caption(f"⏱️ SYS.TIME: {datetime.now(ZoneInfo('Africa/Nairobi')).strftime('%d/%m/%Y | %H:%M:%S')} EAT | STATUS: ONLINE")
     
     st.divider()
 
@@ -357,61 +412,61 @@ with home:
         prediction = "Unknown"
         accuracy = 0.0
 
-    st.markdown("### 📡 Live Threat Assessment")
+    st.markdown("### 📡 THREAT ASSESSMENT MODULE")
     c1, c2, c3 = st.columns(3)
 
     with c1:
         st.markdown("""
-        <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #5f6368; margin:15px 0 0 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-family: Roboto, sans-serif;">Core Algorithm</h4>
-            <h2 style="margin: 15px 0; color: #4285F4; font-family: Roboto, sans-serif !important; font-size: 2.4rem; font-weight: 700;">XGBoost</h2>
-            <p style="color: #80868b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">Advanced Gradient Boosting</p>
+        <div class="tech-container" style="text-align: center;">
+            <h4 style="color: #94a3b8; margin:15px 0 0 0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-family: Inter, sans-serif;">Core Algorithm</h4>
+            <h2 style="margin: 20px 0; color: #06b6d4; font-family: JetBrains Mono, monospace !important; font-size: 2.6rem; font-weight: 700; text-shadow: 0 0 15px rgba(6,182,212,0.5);">XGBoost</h2>
+            <p style="color: #64748b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">ML.Engine.GradientBoost</p>
         </div>
         """, unsafe_allow_html=True)
 
     with c2:
         st.metric(
-            "🎯 Model Accuracy",
+            "🎯 MODEL ACCURACY",
             f"{accuracy:.2f}%",
-            help="Based on historical training data validation"
+            help="Training validation score"
         )
 
     with c3:
         st.markdown("""
-        <div class="professional-container" style="text-align: center;">
-            <h4 style="color: #5f6368; margin:15px 0 0 0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px; font-family: Roboto, sans-serif;">Forecast Horizon</h4>
-            <h2 style="margin: 15px 0; color: #34A853; font-family: Roboto, sans-serif !important; font-size: 2.4rem; font-weight: 700;">2027</h2>
-            <p style="color: #80868b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">Predictive Analysis</p>
+        <div class="tech-container" style="text-align: center;">
+            <h4 style="color: #94a3b8; margin:15px 0 0 0; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 2px; font-family: Inter, sans-serif;">Target Year</h4>
+            <h2 style="margin: 20px 0; color: #8b5cf6; font-family: JetBrains Mono, monospace !important; font-size: 2.6rem; font-weight: 700; text-shadow: 0 0 15px rgba(139,92,246,0.5);">2027</h2>
+            <p style="color: #64748b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">Forecast.Horizon</p>
         </div>
         """, unsafe_allow_html=True)
 
     st.divider()
 
     # Threat Display
-    st.header("🚨 2027 Threat Projection")
+    st.header("🚨 THREAT PROJECTION // 2027")
     
     if prediction == "High":
         st.markdown("""
         <div class="threat-high">
             <h1>⚠️ HIGH RISK DETECTED</h1>
-            <h3>Predicted Threat Level: HIGH</h3>
-            <p>The predictive model indicates a significant escalation in cyber threats targeting government digital infrastructure. Immediate proactive measures and resource allocation are recommended.</p>
+            <h3>THREAT_LEVEL: HIGH</h3>
+            <p>Predictive algorithms indicate significant escalation in cyber threats targeting critical infrastructure. Immediate countermeasures required. Threat vectors include advanced persistent threats (APTs) and zero-day exploits.</p>
         </div>
         """, unsafe_allow_html=True)
     elif prediction == "Critical":
         st.markdown("""
         <div class="threat-critical">
             <h1>🛑 CRITICAL ALERT</h1>
-            <h3>Predicted Threat Level: CRITICAL</h3>
-            <p>Critical infrastructure vulnerability detected. The model forecasts an unprecedented surge in attack vectors. Emergency protocols should be reviewed immediately.</p>
+            <h3>THREAT_LEVEL: CRITICAL</h3>
+            <p>Maximum threat level detected. System predicts unprecedented attack surge. Emergency protocols activated. All defensive systems should be raised to maximum alert status immediately.</p>
         </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown("""
         <div class="threat-moderate">
             <h1>✅ STABLE STATUS</h1>
-            <h3>Predicted Threat Level: MODERATE</h3>
-            <p>Threat levels are within manageable parameters. Continue standard monitoring and maintenance protocols.</p>
+            <h3>THREAT_LEVEL: MODERATE</h3>
+            <p>Threat parameters within acceptable ranges. Standard monitoring protocols sufficient. Continue baseline security operations and routine system audits.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -419,54 +474,50 @@ with home:
 # PROJECT OVERVIEW
 # =====================================
 with overview:
-    st.title("📄 Project Overview & Research Context")
+    st.title("📄 SYSTEM OVERVIEW")
     
-    st.subheader("🎯 Research Objective")
+    st.subheader("🎯 MISSION OBJECTIVE")
     st.write("""
-    This system represents the core analytical engine of an MSc Cybersecurity thesis at Mount Kenya University. 
-    The project addresses the critical need for proactive cyber defense mechanisms within Kenyan Government Digital Services.
+    Advanced predictive intelligence platform for Kenyan Government Digital Services. 
+    Deploys machine learning algorithms to forecast cyber threat evolution and enable proactive defense strategies.
     """)
 
-    st.subheader("⚠️ The Challenge")
+    st.subheader("⚠️ THREAT LANDSCAPE")
     st.write("""
-    As digital transformation accelerates across public sectors, the threat landscape evolves exponentially. 
-    Traditional reactive security measures are insufficient against modern, automated cyber attacks. 
-    There is a critical gap in predictive capabilities for national-level digital infrastructure.
+    Digital transformation acceleration correlates with exponential threat growth. 
+    Conventional reactive defenses inadequate against modern attack vectors. 
+    Critical infrastructure requires predictive capabilities.
     """)
 
-    st.subheader("🔬 Methodology")
+    st.subheader("🔬 SYSTEM ARCHITECTURE")
     st.write("""
-    This system utilizes **Machine Learning (XGBoost)** to analyze complex correlations between:
+    Core engine utilizes **XGBoost Neural Networks** processing multi-dimensional correlation matrices:
     """)
     st.markdown("""
-    - **🎯 Historical cyber attack vectors:** DDoS, Malware, Phishing, Web Attacks
-    - **🔒 System vulnerability metrics:** Critical CVEs, Patch Delays
-    - **📡 Network traffic anomalies:** Unusual data flow patterns
-    - **📈 Socio-economic factors:** Inflation and GDP Growth rates (which often correlate with cybercrime rates)
+    - **🎯 Attack Vectors:** DDoS, Malware, Phishing, Web Exploits
+    - **🔒 Vulnerability Metrics:** CVE Criticality, Patch Latency
+    - **📡 Network Intelligence:** Traffic Anomaly Detection
+    - **📈 Economic Indicators:** Inflation/GDP correlation algorithms
     
-    By synthesizing these diverse data streams, the model forecasts future threat levels, enabling government agencies to 
-    allocate resources and strengthen defenses **before** attacks occur.
+    Predictive synthesis enables pre-emptive resource allocation.
     """)
 
-    st.subheader("🌍 Strategic Importance")
-    st.write("""
-    This predictive capability is vital for:
-    """)
+    st.subheader("🌍 OPERATIONAL IMPACT")
     st.markdown("""
-    - **🏛️ National Security Infrastructure Protection**
-    - **💰 Pre-emptive Resource Allocation**
-    - **📋 Policy Formulation for Digital Governance**
-    - **🤝 Enhancing Public Trust in E-Government Services**
+    - **🏛️ Critical Infrastructure Protection**
+    - **💰 Resource Optimization**
+    - **📋 Policy Intelligence**
+    - **🤝 Public Trust Maintenance**
     """)
 
-    st.info("🔒 **Data Privacy Note:** All data displayed in this system is synthetic or anonymized for research purposes. No real-time government data is exposed.")
+    st.info("🔒 **SECURITY PROTOCOL:** All data synthetic/anonymized. No live government feeds.")
 
 # =====================================
 # DATASET
 # =====================================
 with dataset:
-    st.title("📊 Data Matrix")
-    st.markdown("Accessing raw training data and feature set...")
+    st.title("📊 DATA MATRIX")
+    st.markdown("Accessing classified training datasets...")
     st.dataframe(
         get_dataset(),
         use_container_width=True,
@@ -477,8 +528,8 @@ with dataset:
 # MODELS
 # =====================================
 with models:
-    st.title("🤖 AI Model Performance")
-    st.markdown("Comparative analysis of machine learning algorithms evaluated during research.")
+    st.title("🤖 AI CORE PERFORMANCE")
+    st.markdown("Algorithmic benchmarking and selection metrics...")
     
     results = get_results()
     table_data = []
@@ -486,21 +537,20 @@ with models:
         table_data.append({
             "Algorithm": name,
             "Accuracy": f"{value*100:.2f}%",
-            "Status": "Active" if name == "XGBoost" else "Evaluated"
+            "Status": "ACTIVE" if name == "XGBoost" else "STANDBY"
         })
     
     st.table(table_data)
     
-    st.warning("⚠️ **Note:** XGBoost was selected as the primary model due to superior performance in handling imbalanced cybersecurity datasets and complex non-linear relationships.")
+    st.warning("⚠️ **SYSTEM NOTE:** XGBoost selected for production deployment. Superior handling of imbalanced threat datasets.")
 
 # =====================================
 # PARAMETERS
 # =====================================
 with parameters:
-    st.title("⚙️ Prediction Parameters")
+    st.title("⚙️ SYSTEM PARAMETERS")
     st.markdown("""
-    The following variables constitute the feature set for the 2027 threat projection. 
-    These parameters are derived from historical trends, economic forecasts, and technological growth projections.
+    Feature configuration for 2027 threat projection horizon.
     """)
     
     st.dataframe(
@@ -509,4 +559,4 @@ with parameters:
         height=400
     )
     
-    st.warning("⚠️ **Parameter Significance:** Each parameter is weighted by the model based on its historical correlation with threat escalation. Economic instability and patch delays often show high correlation with increased attack surfaces.")
+    st.warning("⚠️ **ANALYSIS:** Economic volatility and patch latency show highest correlation with threat escalation.")
