@@ -38,16 +38,18 @@ st.set_page_config(
 
 
 # =====================================================
-# FUTURISTIC BLUE THEME
+# WEBSITE STYLE DESIGN
 # =====================================================
 
 
-st.markdown("""
+st.markdown(
+
+"""
 
 <style>
 
 
-/* Entire background */
+/* MAIN BACKGROUND */
 
 .stApp{
 
@@ -57,35 +59,38 @@ linear-gradient(
 
 135deg,
 
-#062B5C,
+#021B4B,
 
-#0B4F8A,
+#064789,
 
-#1565C0
+#0B63CE
 
 );
 
 }
 
 
-
-/* Main container */
+/* REMOVE TOP SPACE */
 
 .block-container{
 
-padding-top:20px;
+padding-top:15px;
+
+padding-left:40px;
+
+padding-right:40px;
 
 }
 
 
 
-/* Headings */
+/* HEADINGS */
 
 h1,h2,h3{
 
 color:white !important;
 
-font-weight:800;
+font-weight:900;
 
 }
 
@@ -101,19 +106,65 @@ font-size:16px;
 
 
 
-/* Captions */
+/* TOP NAVIGATION TABS */
 
-.stCaption{
 
-color:#eeeeee !important;
+.stTabs [data-baseweb="tab-list"]{
+
+
+display:flex;
+
+justify-content:flex-end;
+
+gap:12px;
+
+width:100%;
+
+margin-bottom:20px;
 
 }
 
 
 
-/* Metric cards */
+.stTabs [data-baseweb="tab"]{
+
+
+background:#003366;
+
+color:white;
+
+padding:12px 25px;
+
+border-radius:10px;
+
+font-weight:800;
+
+font-size:15px;
+
+border:1px solid #FF9800;
+
+
+}
+
+
+
+.stTabs [aria-selected="true"]{
+
+
+background:#FF9800 !important;
+
+color:white !important;
+
+
+}
+
+
+
+/* METRIC CARDS */
+
 
 [data-testid="stMetric"]{
+
 
 background:white;
 
@@ -125,15 +176,15 @@ border:3px solid #FF9800;
 
 box-shadow:
 
-0px 5px 20px rgba(0,0,0,0.30);
+0px 5px 20px rgba(0,0,0,0.4);
+
 
 }
 
 
 
-/* Metric titles */
-
 [data-testid="stMetricLabel"]{
+
 
 color:#003366 !important;
 
@@ -141,80 +192,48 @@ font-weight:bold;
 
 font-size:16px;
 
+
 }
 
 
 
-/* Metric values */
-
 [data-testid="stMetricValue"]{
 
-color:#E65100 !important;
+
+color:#D35400 !important;
 
 font-weight:900;
 
 font-size:32px;
 
-}
-
-
-
-/* Tabs */
-
-.stTabs [data-baseweb="tab-list"]{
-
-gap:12px;
 
 }
 
 
 
-.stTabs [data-baseweb="tab"]{
+/* TABLES */
 
-background:#003366;
-
-color:white;
-
-padding:12px 25px;
-
-border-radius:10px;
-
-font-weight:bold;
-
-}
-
-
-
-.stTabs [aria-selected="true"]{
-
-background:#FF9800 !important;
-
-color:white !important;
-
-}
-
-
-
-/* Data tables */
 
 [data-testid="stDataFrame"]{
+
 
 background:white;
 
 border-radius:15px;
 
+
 }
 
 
-
-/* Info boxes */
+/* BUTTON / INFO BOX */
 
 .stAlert{
 
+
 border-radius:15px;
 
-}
 
+}
 
 
 </style>
@@ -228,8 +247,9 @@ unsafe_allow_html=True
 
 
 
+
 # =====================================================
-# TOP NAVIGATION TABS
+# NAVIGATION
 # =====================================================
 
 
@@ -248,6 +268,7 @@ home, dataset, models, parameters = st.tabs(
 ]
 
 )
+
 
 
 
@@ -289,7 +310,9 @@ with home:
 
     st.caption(
 
-        "Prediction Report Generated: " +
+        "Prediction Report Generated: "
+
+        +
 
         datetime.now(
 
@@ -312,15 +335,16 @@ with home:
     prediction = predict_2027()
 
 
-    accuracy = get_model_accuracy() * 100
+    accuracy = get_model_accuracy()*100
 
 
 
-    col1, col2, col3 = st.columns(3)
+    col1,col2,col3 = st.columns(3)
 
 
 
     with col1:
+
 
         st.metric(
 
@@ -334,6 +358,7 @@ with home:
 
     with col2:
 
+
         st.metric(
 
             "Accuracy",
@@ -346,6 +371,7 @@ with home:
 
     with col3:
 
+
         st.metric(
 
             "Forecast Horizon",
@@ -353,6 +379,7 @@ with home:
             "2027"
 
         )
+
 
 
 
@@ -368,9 +395,9 @@ with home:
 
 
 
-    # ==============================
-    # RISK DISPLAY
-    # ==============================
+    # =========================================
+    # THREAT STATUS PANEL
+    # =========================================
 
 
     if prediction == "High":
@@ -384,13 +411,15 @@ with home:
 
         background:#F57C00;
 
-        padding:35px;
+        padding:40px;
 
         border-radius:20px;
 
         text-align:center;
 
-        box-shadow:0px 5px 20px rgba(0,0,0,0.35);
+        border:3px solid white;
+
+        box-shadow:0 0 25px rgba(0,0,0,0.5);
 
         ">
 
@@ -419,7 +448,7 @@ with home:
 
 
 
-    elif prediction == "Critical":
+    elif prediction=="Critical":
 
 
         st.markdown(
@@ -428,13 +457,15 @@ with home:
 
         <div style="
 
-        background:#C62828;
+        background:#B71C1C;
 
-        padding:35px;
+        padding:40px;
 
         border-radius:20px;
 
         text-align:center;
+
+        border:3px solid white;
 
         ">
 
@@ -448,7 +479,7 @@ with home:
 
         <h2 style="color:white;">
 
-        Immediate Attention Required
+        Predicted Level: Critical
 
         </h2>
 
@@ -474,11 +505,13 @@ with home:
 
         background:#2E7D32;
 
-        padding:35px;
+        padding:40px;
 
         border-radius:20px;
 
         text-align:center;
+
+        border:3px solid white;
 
         ">
 
@@ -502,6 +535,7 @@ with home:
 
 
 
+
 # =====================================================
 # DATASET TAB
 # =====================================================
@@ -519,7 +553,7 @@ with dataset:
 
     st.write(
 
-        "Historical cybersecurity indicators used for model training."
+        "Historical cybersecurity indicators used during machine learning training."
 
     )
 
@@ -531,6 +565,7 @@ with dataset:
         use_container_width=True
 
     )
+
 
 
 
@@ -551,8 +586,7 @@ with models:
     )
 
 
-
-    results = get_results()
+    results=get_results()
 
 
 
@@ -560,7 +594,7 @@ with models:
 
 
 
-    for model, score in results.items():
+    for model,score in results.items():
 
 
         model_table.append(
@@ -587,28 +621,31 @@ with models:
 
     st.info(
 
-        """
+    """
 
-        Models evaluated:
-
-
-        • Logistic Regression
+    Evaluated Algorithms:
 
 
-        • Random Forest
+    • Logistic Regression
 
 
-        • XGBoost Classifier
+    • Random Forest
 
 
-        Final selected model:
-
-        XGBoost
+    • XGBoost Classifier
 
 
-        """
+
+    Selected Prediction Model:
+
+
+    XGBoost
+
+
+    """
 
     )
+
 
 
 
@@ -631,17 +668,26 @@ with parameters:
 
     st.write(
 
-        """
+    """
 
-        The following cybersecurity, technological,
+    These parameters influence the final 2027 cyber threat projection:
 
-        and economic variables contribute to the
 
-        final 2027 prediction.
+    - Attack frequency
 
-        """
+    - Vulnerability levels
+
+    - Security delays
+
+    - Network activity
+
+    - Economic indicators
+
+
+    """
 
     )
+
 
 
     st.dataframe(
