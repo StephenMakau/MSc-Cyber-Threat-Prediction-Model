@@ -177,7 +177,32 @@ def get_dataset():
     return dataset
 
 # =====================================
-# PARAMETERS FOR 2027
+# NEW FUNCTIONS FOR GRAPHING
+# =====================================
+
+def get_historical_data():
+    """Returns historical data for graphing trends."""
+    return dataset
+
+def get_future_projection_point():
+    """Returns the specific 2027 projection input data for graphing."""
+    return {
+        "Year": 2027,
+        "Month": 8,
+        "DDoS_Attacks": 4200,
+        "Malware_Attacks": 18500,
+        "Phishing_Attacks": 4100,
+        "Web_Attacks": 5200,
+        "Critical_CVEs": 95,
+        "Patch_Delay_Days": 9,
+        "Traffic_Volume": 1100000,
+        "Inflation_Rate": 6.8,
+        "GDP_Growth": 5.2,
+        "Economic_Environment": 2  # Encoded value for 'Stable' based on training data
+    }
+
+# =====================================
+# PARAMETERS FOR 2027 (TEXT DISPLAY)
 # =====================================
 
 def get_parameters():
