@@ -147,7 +147,7 @@ home, overview, dataset, models, parameters = st.tabs(
 )
 
 # =====================================
-# HOME - WITH EXPLANATIONS
+# HOME - PRIORITY: OUTCOME FIRST
 # =====================================
 with home:
     st.title("🛡️ CYBER THREAT INTELLIGENCE")
@@ -158,24 +158,9 @@ with home:
     view_indicator = "📱 MOBILE" if st.session_state.mobile_view else "💻 DESKTOP"
     st.caption(f"⏱️ SYS.TIME: {datetime.now(ZoneInfo('Africa/Nairobi')).strftime('%d/%m/%Y | %H:%M:%S')} EAT | STATUS: ONLINE | MODE: {mode_indicator} | VIEW: {view_indicator}")
     
-    # EXPLANATION: What this page shows
-    with st.expander("📖 **How to Read This Dashboard**", expanded=True):
-        st.markdown("""
-        **Welcome to the Cyber Threat Intelligence System.** This dashboard predicts cyber threat levels for Kenyan Government Digital Services using Machine Learning.
-        
-        **Key Components:**
-        - **🎯 Model Accuracy**: Shows how well our AI predicts past threats (higher % = more reliable)
-        - **📅 Target Year**: The system forecasts threats for **2027** based on historical patterns (2020-2025)
-        - **🚨 Threat Projection**: The colored alert box shows the predicted threat level using three categories:
-            - **MODERATE** (Green): Normal operations sufficient
-            - **HIGH** (Orange): Increased vigilance required
-            - **CRITICAL** (Red): Maximum alert status needed
-        
-        **How it Works**: The system analyzes 10 historical data points across 12 variables (attack types, economic factors, vulnerabilities) to identify patterns and predict future threats.
-        """)
-    
     st.divider()
 
+    # 1. EXECUTION: Get Prediction & Accuracy Immediately
     try:
         prediction = predict_2027()
         accuracy = get_model_accuracy() * 100
@@ -184,6 +169,42 @@ with home:
         prediction = "Unknown"
         accuracy = 0.0
 
+    # 2. OUTCOME: Display Threat Projection FIRST (Top Priority)
+    st.header("🚨 THREAT PROJECTION // 2027")
+    
+    if prediction == "High":
+        st.markdown("""
+        <div class="threat-high">
+            <h1>⚠️ HIGH RISK DETECTED</h1>
+            <h3>THREAT_LEVEL: HIGH</h3>
+            <p>Predictive algorithms indicate significant escalation in cyber threats targeting critical infrastructure. Immediate countermeasures required. Threat vectors include advanced persistent threats (APTs) and zero-day exploits.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        st.warning("⚠️ **Interpretation**: Historical data shows that when attack volumes exceed 4,000 (DDoS), 18,000 (Malware), and economic pressure indicators are elevated, threat levels typically spike to HIGH. Review defensive protocols immediately.")
+        
+    elif prediction == "Critical":
+        st.markdown("""
+        <div class="threat-critical">
+            <h1>🛑 CRITICAL ALERT</h1>
+            <h3>THREAT_LEVEL: CRITICAL</h3>
+            <p>Maximum threat level detected. System predicts unprecedented attack surge. Emergency protocols activated. All defensive systems should be raised to maximum alert status immediately.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        st.error("🛑 **Interpretation**: The convergence of high CVE counts (95), low patch compliance (9 days delay), and economic instability historically correlates with CRITICAL threat periods. Immediate executive action required.")
+        
+    else:
+        st.markdown("""
+        <div class="threat-moderate">
+            <h1>✅ STABLE STATUS</h1>
+            <h3>THREAT_LEVEL: MODERATE</h3>
+            <p>Threat parameters within acceptable ranges. Standard monitoring protocols sufficient. Continue baseline security operations and routine system audits.</p>
+        </div>
+        """, unsafe_allow_html=True)
+        st.success("✅ **Interpretation**: Current projections indicate manageable threat levels. Attack volumes remain within historical norms and economic indicators suggest stable conditions. Maintain standard operations.")
+
+    st.divider()
+
+    # 3. CONTEXT: System Metrics & Algorithm Info (Secondary Priority)
     st.markdown("### 📡 THREAT ASSESSMENT MODULE")
     
     if st.session_state.mobile_view:
@@ -200,7 +221,6 @@ with home:
             <p style="color: #64748b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">ML.Engine.GradientBoost</p>
         </div>
         """, unsafe_allow_html=True)
-        # EXPLANATION: Algorithm
         st.caption("💡 **XGBoost** (eXtreme Gradient Boosting) is an advanced ML algorithm that combines multiple decision trees to make predictions. It was selected for its superior accuracy in handling cybersecurity data.")
 
     with c2:
@@ -209,7 +229,6 @@ with home:
             f"{accuracy:.2f}%",
             help="Training validation score"
         )
-        # EXPLANATION: Accuracy
         st.caption("💡 This percentage indicates how often the model correctly predicted historical threat levels. Above 80% is considered reliable for operational use.")
 
     with c3:
@@ -220,12 +239,11 @@ with home:
             <p style="color: #64748b; font-size: 0.95rem; font-family: Calibri, sans-serif; margin-bottom: 15px;">Forecast.Horizon</p>
         </div>
         """, unsafe_allow_html=True)
-        # EXPLANATION: Forecast
         st.caption("💡 The model projects threat levels 2 years ahead using trend analysis of attack patterns, economic indicators, and system vulnerabilities from 2020-2025 data.")
 
     st.divider()
 
-    # EXPLANATION: Prediction methodology
+    # 4. EDUCATION: Methodology & Explanations (Moved Below Outcome)
     st.markdown("### 🧠 **Prediction Methodology**")
     st.info("""
     **How the 2027 Prediction is Generated:**
@@ -238,40 +256,21 @@ with home:
     **Why This Matters**: Early warning allows security teams to allocate resources proactively rather than reacting to attacks after they occur.
     """)
 
-    st.header("🚨 THREAT PROJECTION // 2027")
-    
-    if prediction == "High":
+    # EXPLANATION: What this page shows
+    with st.expander("📖 **How to Read This Dashboard**", expanded=False):
         st.markdown("""
-        <div class="threat-high">
-            <h1>⚠️ HIGH RISK DETECTED</h1>
-            <h3>THREAT_LEVEL: HIGH</h3>
-            <p>Predictive algorithms indicate significant escalation in cyber threats targeting critical infrastructure. Immediate countermeasures required. Threat vectors include advanced persistent threats (APTs) and zero-day exploits.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        # EXPLANATION: High risk
-        st.warning("⚠️ **Interpretation**: Historical data shows that when attack volumes exceed 4,000 (DDoS), 18,000 (Malware), and economic pressure indicators are elevated, threat levels typically spike to HIGH. Review defensive protocols immediately.")
+        **Welcome to the Cyber Threat Intelligence System.** This dashboard predicts cyber threat levels for Kenyan Government Digital Services using Machine Learning.
         
-    elif prediction == "Critical":
-        st.markdown("""
-        <div class="threat-critical">
-            <h1>🛑 CRITICAL ALERT</h1>
-            <h3>THREAT_LEVEL: CRITICAL</h3>
-            <p>Maximum threat level detected. System predicts unprecedented attack surge. Emergency protocols activated. All defensive systems should be raised to maximum alert status immediately.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        # EXPLANATION: Critical risk
-        st.error("🛑 **Interpretation**: The convergence of high CVE counts (95), low patch compliance (9 days delay), and economic instability historically correlates with CRITICAL threat periods. Immediate executive action required.")
+        **Key Components:**
+        - **🎯 Model Accuracy**: Shows how well our AI predicts past threats (higher % = more reliable)
+        - **📅 Target Year**: The system forecasts threats for **2027** based on historical patterns (2020-2025)
+        - **🚨 Threat Projection**: The colored alert box shows the predicted threat level using three categories:
+            - **MODERATE** (Green): Normal operations sufficient
+            - **HIGH** (Orange): Increased vigilance required
+            - **CRITICAL** (Red): Maximum alert status needed
         
-    else:
-        st.markdown("""
-        <div class="threat-moderate">
-            <h1>✅ STABLE STATUS</h1>
-            <h3>THREAT_LEVEL: MODERATE</h3>
-            <p>Threat parameters within acceptable ranges. Standard monitoring protocols sufficient. Continue baseline security operations and routine system audits.</p>
-        </div>
-        """, unsafe_allow_html=True)
-        # EXPLANATION: Moderate risk
-        st.success("✅ **Interpretation**: Current projections indicate manageable threat levels. Attack volumes remain within historical norms and economic indicators suggest stable conditions. Maintain standard operations.")
+        **How it Works**: The system analyzes 10 historical data points across 12 variables (attack types, economic factors, vulnerabilities) to identify patterns and predict future threats.
+        """)
 
 # =====================================
 # PROJECT OVERVIEW - WITH EXPLANATIONS
